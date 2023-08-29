@@ -1,236 +1,227 @@
 \documentclass[a4paper, 12]{scrartcl}
 
 \usepackage{tabularx}
-\usepackage[usenames, dvipsnames]{xcolor} 
-
-%---- Define colors ---%
-\definecolor{linkcolour}{RGB}{28,0,128} 
-\definecolor{newgray}{gray}{0.4}
-%\definecolor{mainColor}{RGB}{102, 51, 153} 
-% dark-midnight blue
-\definecolor{mainColor}{RGB}{0, 20, 45} 
-\definecolor{secondaryColor}{RGB}{66, 28, 82} 
-\definecolor{lightgray}{gray}{0.8}
-\definecolor{secondBlack}{gray}{0.1}
-
-
 \usepackage{lastpage}
-\renewcommand\pagemark{{\usekomafont{pagenumber}\thepage\ of \pageref{LastPage}}}
-% sets pagestyle scrheadings automatically
 \usepackage{scrlayer-scrpage}
-\clearpairofpagestyles
-\ohead{\headmark}
-\ofoot*{\pagemark}
-
-\newcommand{\preSectionSpace}{\vspace{0.2cm}}
-\newcommand{\afterSectionSpace}{\vspace{0.5cm}}
-
 \usepackage{url}
 \usepackage{array}
+% colors
+\usepackage[usenames, dvipsnames]{xcolor}
+\definecolor{linkcolour}{RGB}{28,0,128} 
+\definecolor{newGray}{gray}{0.4}
+\definecolor{mainColor}{RGB}{0, 20, 45} 
+\definecolor{secondaryColor}{RGB}{51,0,123}
+\definecolor{lightGray}{gray}{0.8}
 \usepackage[colorlinks, breaklinks, urlcolor=linkcolour, linkcolor=linkcolour, pdfstartview=FitB, bookmarks=false]{hyperref} 
 \usepackage{CV}
-\usepackage[margin=0.5in]{geometry}
+\usepackage[margin=0.25in]{geometry}
 \usepackage[english]{babel}
 \usepackage{tikz}
 \usepackage{tikzpagenodes}
 \usetikzlibrary{calc} 
 \usepackage{ae,aecompl} 
-
-% figures
-\usepackage{graphicx}
-
-% symbols
-\usepackage{marvosym}
+\usepackage{graphicx} % figures
+\usepackage{marvosym} % symbols ->
 \usepackage{pifont} 
 \usepackage{wasysym}
 \usepackage{ifsym}
 \usepackage{fontawesome}
 \usepackage{enumitem}
+\setlist[itemize]{label={\tiny\raisebox{1ex}{\textbullet}}, 
+        labelsep=4pt, 
+        itemsep=0.5pt, 
+        before=\normalfont\small, 
+        indent=0pt, 
+        topsep=0pt, 
+        leftmargin=*, 
+        noitemsep,
+        topsep=0pt, 
+        nolistsep
+}
 \usepackage{textcomp}
 \usepackage[LabelsAligned]{currvita} 
 \usepackage{verbatim}
-
 \usepackage[none]{hyphenat}
+\usepackage{tabularx,ragged2e}
+
+\renewcommand\pagemark{{\usekomafont{pagenumber}\thepage\ of \pageref{LastPage}}}
+
+\clearpairofpagestyles
+\ohead{\headmark}
+\ofoot*{\pagemark}
+
+% constants 
+\newcommand{\preSectionSpace}{\vspace{4pt}}
+\newcommand{\afterSectionSpace}{\vspace{3pt}}
+\newcommand{\horizontalSpaceBeforeSection}{\hspace{0.1cm}}
+\newcommand{\cvSubtitle}[1]{\textcolor{mainColor}{\normalsize{#1}}}
+\newcommand{\companyName}[1]{\textbf{\textcolor{secondaryColor}{#1}}}
+\newcommand{\institutionName}[1]{\textbf{\textcolor{secondaryColor}{#1}}}
+\newcommand{\jobTitle}[1]{\textbf{#1}}
+\newcommand{\fromBis}[2]{\scriptsize{#1 - #2}}
+\newcommand{\cvLocation}[2]{\scriptsize{\ #1, #2}}
+
+\newcommand{\iconMinipageSpace}{0.035}
+\newcommand{\socialInfoMinipageSpace}{0.27}
+
+\newcommand{\cvSection}[1]{\preSectionSpace{\large\textcolor{black}{#1}}\afterSectionSpace}
+\newcommand{\composedCvSection}[1]{\preSectionSpace{\large\textcolor{black}{#1}}}
+\newcommand{\cvDate}[1]{\scriptsize{#1}}
+\newcommand{\cvSkill}[1]{\footnotesize{#1}}
+\newcommand{\spaceBetweenCvEntry}{\\[6pt]}
+
+\newcommand{\sbt}{\ \ \ \begin{picture}(-1,1)(-1,-3)\circle*{3}\end{picture}  \  }
+\newcommand{\berlin}{\cvLocation{Berlin}{Germany}}
+\newcommand{\gmbh}{GmbH}
+\newcommand{\qurix}{Qurix Technology \gmbh}
+\newcommand{\lsy}{Lufthansa Systems \gmbh \ \& Co. KG}
+\newcommand{\pexon}{Pexon Consulting \gmbh}
+
+% font
 \renewcommand{\familydefault}{\sfdefault} 
 
 \sloppy
 
 % define column type for tabular subsections
-\newcolumntype{L}{>{\raggedleft}p{0.181\textwidth}}
-\newcolumntype{R}{p{0.728\textwidth}}
-\newcommand\VRule{\color{lightgray}\vrule width 0.3pt}
+\newcolumntype{L}{>{\raggedleft}p{0.115\textwidth}}
+\newcolumntype{R}{p{0.83\textwidth}}
+\newcommand\VRule{\color{lightGray}\vrule width 0.25pt}
 
 % define function for scale of knowledge
 \newcommand{\grade}[1]{%
 	\begin{tikzpicture}
-	\clip (1em-.4em,-.35em) rectangle (5em +.5em ,1em);
-	\foreach \x in {1,2,...,5}{
-		\path[{fill=lightgray}] (\x em,0) circle (.35em);
-	}
-	\begin{scope}
-	\clip (1em-.4em,-.35em) rectangle (#1em +.5em ,1em);
-	\foreach \x in {1,2,...,5}{
-		\path[{fill=mainColor}] (\x em,0) circle (.35em);
-	}
-	\end{scope}
-	
+    	\clip (1em-.4em,-.35em) rectangle (5em +.5em ,1em);
+    	\foreach \x in {1,2,...,5}{
+    		\path[{fill=lightGray}] (\x em,0) circle (.35em);
+    	}
+    	\begin{scope}
+        	\clip (1em-.4em,-.35em) rectangle (#1em +.5em ,1em);
+        	\foreach \x in {1,2,...,5}{
+        		\path[{fill=mainColor}] (\x em,0) circle (.35em);
+        	}
+    	\end{scope}
 	\end{tikzpicture}%
 }
 
-%define bigger circle than cdotp
-\newcommand{\sbt}{\begin{picture}(-1,1)(-1,-3)\circle*{3}\end{picture}} 
+\newcommand{\cvHeader}{
+    \begin{minipage}{1.0\textwidth}	
+            \begin{minipage}{0.45\textwidth}
+		      \begin{flushleft}
+		      	\Large{Fernando Zepeda}\\
+                    \cvSubtitle{Machine Learning and Data Engineer}
+		      \end{flushleft}
+            \end{minipage}
+            \begin{minipage}{0.68\textwidth}
+            %\textcolor{newGray}{\textit{Born in Copiapó, Chile}, May 27, 1988}
+    		\begin{flushleft}
+    				\begin{center}
+    					\begin{minipage}{\iconMinipageSpace\textwidth}
+    						\small{\faMapMarker} \\
+    						\small{\Letter} \\
+                                \small{\faGlobe}
+    					\end{minipage}	
+    					\begin{minipage}{\socialInfoMinipageSpace\textwidth}
+    						\small{Berlin, Germany} \\
+    						\small{\href{mailto:jobs@fernandozepeda.io}{jobs@fernandozepeda.io}} \\
+                                 \small{\href{https://www.fernandozepeda.io}{fernandozepeda.io}}
+    					\end{minipage}
+    					\begin{minipage}{\iconMinipageSpace\textwidth}
+    					    \small{\faLinkedin}\\
+                                \small{\faGithub} \\
+                                \small{\faPhone} 
+    					\end{minipage}
+    					\begin{minipage}{\socialInfoMinipageSpace\textwidth}
+    					    \small{\href{https://www.linkedin.com/in/fernando-zepeda-4b83073a}{Linkedin}}\\
+    						\small{\href{https://github.com/Fmrhj}{Fmrhj}} \\
+                                \small{\text{\tiny{+}}49 174 3052810}
+    					\end{minipage}
+    				\end{center}
+    	   \end{flushleft}
+            \end{minipage}    
+        \end{minipage}
 
-%---- start of the document ----%
+        % Circular Picture
+    %       \begin{minipage}{0.20\textwidth}
+    %	      \begin{tikzpicture}[baseline=(ola.center),inner sep=0pt]
+    %			%\clip (0,0)  circle (2cm) node (ola) {\includegraphics[width=4cm]{images/Photo-bw.jpg}};
+    %			\clip (0, 0)  circle (2.0cm) node (ola)
+    %			{\includegraphics[width=4cm]{images/IMG_200222_165652_gimp_crop_2.jpg}};
+    %		\end{tikzpicture}
+    %   \end{minipage}
 
+}
+
+% document
 \begin{document}
-	
-	% Removes page numbering
-	\pagestyle{empty} 
-	
-	%---- Header ---%
-	\begin{minipage}{0.75\textwidth}
-		\begin{flushleft}
-			\Large{Fernando Zepeda}\\
-			\large{Senior Cloud and Data Engineer}\\[-5pt]
-		\end{flushleft}
-		\textcolor{newgray}{\textit{Born in Copiapó, Chile}, May 27, 1988}
-		\begin{flushleft}
-			\begin{minipage}{1.0\textwidth}
-				\begin{flushleft}
-					\begin{minipage}{0.05\textwidth}
-						\faHome \\
-						\faPhone \\
-						\Letter \\
-					\end{minipage}	
-					\begin{minipage}{0.48\textwidth}
-						Berlin, Germany \\
-						+49 157 3936 4928 \\
-						\href{mailto:fernando.zepeda@protonmail.com}{fernando.zepeda@pm.me}\\
-					\end{minipage}
-					\begin{minipage}{0.05\textwidth}
-					    \faLinkedin\\
-					     \faGithub\\
-					     \faGlobe\\
-					    \\
-					\end{minipage}
-					\begin{minipage}{0.30\textwidth}
-					    \href{https://www.linkedin.com/in/fernando-zepeda-4b83073a}{Linkedin}\\
-						\href{https://github.com/Fmrhj}{Github}\\
-						\href{https://fernandozepeda.io}{fernandozepeda.io}\\
-						 \\
-					\end{minipage}
-				\end{flushleft}
-			\end{minipage}
-		\end{flushleft}
-	\end{minipage}
-	\begin{minipage}{0.20\textwidth}
-		\begin{tikzpicture}[baseline=(ola.center),inner sep=0pt]
-			%\clip (0,0)  circle (2cm) node (ola) {\includegraphics[width=4cm]{images/Photo-bw.jpg}};
-			\clip (0, 0)  circle (2.0cm) node (ola)
-			{\includegraphics[width=4cm]{images/IMG_20200222_165652_gimp_crop_2.jpg}};
-		\end{tikzpicture}
-	\end{minipage}
-	
-	%---- Experience ----% 
-	\preSectionSpace
-	\hspace{0.2cm}{\large\textcolor{mainColor}{\textbf{Experience}}}
-	\afterSectionSpace
+	% removes page numbering
+	\pagestyle{empty}
+	% header
+        \cvHeader
+
+        \preSectionSpace
+	% Experience %
+	\cvSection{Experience}
 	
 	\begin{tabular}{L!{\VRule}R}
-		
-		07/2020 - present &\textbf{Senior Cloud and Data Analytics Consultant} - Pexon Consulting GmbH\\ 
-		\footnotesize{Berlin, Germany} & Team Lead Berlin, Data and ML Ops Specialist \\
-		&\\[-9pt]
-		
-        & \sbt \ \ Backend Development for a major company in the energy branch.\\
-        & \textit{Domain}: Data Analytics, Pricing and Portfolio Management. \\ 
-        & Python, C, Kubernetes, Azure (AKS/DevOps/Data Factory/Functions), SQL Server, Snowflake, PowerBI. \\
-        
-        & \sbt \ \ Data Pipeline Improvement for a German television broadcaster. \\ 
-        & \textit{Domain}: Data Engineering and Analytics. \\
-        & AWS (Cloudwatch/S3/EC2/Lambda), Python, Snowflake, Tableau Server. \\
-		
-		&\\[-9pt]
-		
-		09/2017 - 06/2020 &\textbf{Data Scientist} - Lufthansa Systems GmbH \& Co. KG\\ 
-		\footnotesize{Berlin, Germany} & Airline Operations, Revenue Management \& Pricing. \\
-		&\\[-9pt]
-		
-        & \sbt \ \ Integration of a grand solver for an airline operations system in the Google Cloud Platform.\\
-        & \textit{Domain}: Operations Research and Data Engineering.\\
-        & Python, Google Cloud Platform (Big Query, Data Flow).\\
+		  \fromBis{04/22}{present} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
+		\berlin & \sbt Engineering Lead and Data Engineer with a strong focus on the energy sector.\\
+                    & \sbt Proficient in designing and maintaining Cloud Infrastructure and pipelines for large volumes of data.\\
+                    & \sbt Skilled in Cloud technologies and Microservices Architecture.\\
+                    & \sbt Lead the design and standardization of solutions for the development of new Machine Learning services for different customers.\spaceBetweenCvEntry
 	
-		& \sbt \ \ Methods for capacity allocation and forecasting for all main hubs.\\
-		& \textit{Domain}: Predictive Analytics, Data Science and Optimization \\
-        & R, Azure, Docker, MySQL, Linux.\\
+            \fromBis{07/20}{02/22} & \jobTitle{Data Engineer and Senior Analytics Consultant} - \companyName{\qurix}\\
+		\berlin & \sbt Specialized in Data and ML Ops, with a focus on backend development for a leading energy sector company, specializing in Data Analytics, Pricing, and Portfolio Management.\\
+                    & \sbt Developed and maintained data pipelines for a critical energy portfolio application.\\
+                    & \sbt Contributed on the software release and backend development for different customers.\\
+                    & \sbt Designed and implemented the enhancement of ETL pipelines for a prominent German television broadcaster.\spaceBetweenCvEntry
+                    
+		\fromBis{09/17}{06/20} &\jobTitle{Data Scientist and Data Engineer} - \companyName{\lsy}\\
+		\berlin & \sbt Specialized in Airline Revenue Management and Pricing with a strong emphasis on Operations Research, Data Engineering, Predictive Analytics, and Machine Learning expertise.\\
+                  & \sbt Enhanced capacity allocation and forecasting at major airline hubs by developing and implementing advanced algorithms within a critical application.\\
+                  & \sbt Deployed an end-to-end application to predict stranded passengers to optimize daily hotel demand at main hubs.\\
+                  & \sbt Conceptualized and prototyped dynamic bundling and pricing strategies for flight ancillaries.\spaceBetweenCvEntry
+                        		
+		\fromBis{09/16}{08/17} & \jobTitle{Masterand and Student Assistant} - \companyName{\lsy}\\ 
+		\berlin & \sbt Expertise in ML-driven passenger demand estimation and bid price optimization. Master's thesis on "Airline Stochastic Dynamic Pricing Model": Reinforcement Learning for optimal pricing strategies in single-leg flights.
+
+            \begin{comment}		
+                \fromBis{04/2014}{09/2015} & \jobTitle{Student Assistant} - \companyName{Wintershall Erdgas Handelhaus GmbH \& Co. KG - BASF}\\
+		      \footnotesize{Berlin, Germany} & Database management -- Logistics \\
+		      &\\[-9pt]
+		      & Gas Transport Optimization Tool: Managed, maintained databases. QA testing of new modules for productive use.\\
 		
-		& \sbt \ \ Prediction of stranded passengers for hotel demand for all main hubs.\\
-		& \textit{Domain}: Predictive Analytics and Machine Learning\\
-        & Python, Scikit-Learn, R, Linux, SQL.\\
 		
-		& \sbt \ \ Modelling and prototyping dynamic bundling and pricing of flight ancillaries with Machine Learning classifiers.\\
-		& \textit{Domain}: Predictive Analytics and Machine Learning\\
-        & Python, TensorFlow, Spark, SQL.\\
-		
-		&\\[-9pt]
-		
-		04/2017 - 08/2017 & \textbf{Student Assistant} - Lufthansa Systems GmbH \& Co. KG\\ 
-		\footnotesize{Berlin, Germany} & Data Science and Rapid Prototyping -- Revenue Management \& Pricing.\\ 
-		& \\[-9pt]
-		
-		&  Passenger demand estimation with machine learning algorithms and price optimization concept for short haul network flights. \\[7pt]
-		
-		&\\[-7pt]
-		
-		09/2016 - 03/2017 & \textbf{Masterand} - Lufthansa Systems GmbH \& Co. KG\\ 
-		\footnotesize{Berlin, Germany} & Master's thesis: An Airline Stochastic Dynamic Pricing Model.\\
-		&\\[-9pt]
-		&  Optimal price calculation for single-leg flights using Reinforcement Learning. \\[7pt]
-		
-		04/2014 - 09/2015 & \textbf{Student Assistant} - Wintershall Erdgas Handelhaus GmbH \& Co. KG - BASF\\
-		\footnotesize{Berlin, Germany} & Database management -- Logistics \\
-		&\\[-9pt]
-		& Gas Transport Optimization Tool: Managed, maintained databases. QA testing of new modules for productive use.\\
-		
-		\begin{comment}
-    		01/2012 - 02/2012&\textbf{Engineering Intern} - Financial Department - Minera Esperanza S.A.\\
+    		01/2012 - 02/2012& \jobTitle{Engineering Intern} - \companyName{Minera Esperanza S.A.}\\
     		\footnotesize{Santiago, Chile}&\\[-22pt]
     		& \sbt \ Analyzed procurement process and evaluated financial risk of prospective suppliers and contractors.\\[-12pt]
     		& \sbt \ Designed and developed new procurement assessment methodology: multivariate model of financial ratios, increasing flexibility without incurring in additional risk levels.
-    		\\[7pt]
+    		\spaceBetweenCvEntry
     		
     		06/2011 - 07/2011&\textbf{Intern}, Planning and Control Department - ABB S.A.\\
     		\footnotesize{Santiago, Chile}&\\[-12pt]
     		
-    		& Monitored projects, developed periodic financial reports and collaborated closely with project managers from process automation division.\\[7pt]
+    		& Monitored projects, developed periodic financial reports and collaborated closely with project managers from process automation division.\spaceBetweenCvEntry
     		01/2010 - 02/2010 & \textbf{Research Assistant} - Program of Studies and Research on Energy - \\ \footnotesize{Santiago, Chile}&\textsc{Universidad de Chile}\\
     		\\[-12pt]
-    		& Contributed as assistant and co-researcher in the National Plan of Energetic Efficiency 2010 -- 2020 for the Chilean government.\\
-    	\end{comment}
+    		& Contributed as assistant and co-researcher in the National Plan of Energetic Efficiency 2010 -- 20 for the Chilean government.\\
+            \end{comment}
 		
 	\end{tabular}
 	
-	\newpage
-	%---- Education ----% 
-	\preSectionSpace
-	\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Education}}}
-	\afterSectionSpace
+	%---- Education ------------------------------------------------------------------------------------------------------------------------%
+	\cvSection{Education}
 	
 	\begin{tabular}{L!{\VRule}R}
 		
-		04/2014 - 06/2017 & \textbf{Industrial Engineering (M.Sc.)} - Technical University of Berlin\\
-		\footnotesize{Berlin, Germany}&\\[-12pt]
-		& Engineering Major in Logistics, Minor in Operations Research \& Quantitative Methods\\[7pt]
+		\fromBis{04/14}{06/17} & \textbf{Industrial Engineering (M.Sc.)} - \institutionName{Technical University of Berlin}\\
+		\berlin & Engineering Major in Logistics, Minor in Operations Research \& Quantitative Methods \spaceBetweenCvEntry
+	
+		\fromBis{09/10}{02/11} & \textbf{Semester Abroad} - \institutionName{Universitat Polit\`ecnica de Val\`encia}\\ 
+		\cvLocation{Valencia}{Spain}& Quantitative Production \& Operations Management \spaceBetweenCvEntry 
 		
-		09/2010 - 02/2011 & \textbf{Semester Abroad} - Universitat Polit\`ecnica de Val\`encia\\ 
-		\footnotesize{Valencia, Spain}&\\[-12pt]
-		& Specialization in Quantitative Production \& Operations Management\\[7pt]
-		
-		03/2006 - 10/2012 & \textbf{Industrial Engineering (Dipl.)} - Universidad T\'ecnica Federico Santa Mar\'ia\\
-		\footnotesize{Valpara\'iso, Chile}&\\[-12pt]
-		&$\sbt$ \ Professional title (``Ingenier\'ia civil'') and academic degree (``Licenciatura'') in Industrial Engineering Sciences \\
-		&$\sbt$ \ Thesis: ``Predicting bankruptcy of Chilean enterprises with artificial neural networks''
-		
+		\fromBis{03/06}{10/12} & \textbf{Industrial Engineering (Ing. Civil)} - \institutionName{Universidad T\'ecnica Federico Santa Mar\'ia}\\
+		\cvLocation{Valpara\'iso}{Chile} & Diplom Thesis: ``Predicting bankruptcy of Chilean enterprises with artificial neural networks''
+  
 		\begin{comment}
 			03/2002 - 12/2005&\textbf{Secondary School} - Colegio San Luis\\
 			\footnotesize{Antofagasta, Chile}&\\[-12pt]
@@ -238,124 +229,103 @@
 		\end{comment}
 
 	\end{tabular}
-
-	%---- Talks ----%
-	\preSectionSpace
-	\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Talks \& Conferences}}}
-	\afterSectionSpace
-	
+    
+    \begin{comment}
+    
+	% Talks %
+        \cvSection{Talks \& Conferences}
+ 	
 	\begin{tabular}{L!{\VRule}R}
-		
-		05/2019  & \textbf{Airline Group of the International Federation of Operational Research} \\
-		\footnotesize{Panama City, Panama} & \textbf{Societies} - AGIFORS 2019\\
-		&\\[-12pt]
-		& Revenue Management SG yearly \href{https://agifors.org/rm-2019}{meeting}.\\[7pt]
-		
-		09/2017 & \textbf{International Conference on Operations Research} - OR 2017\\
-		\footnotesize{Berlin, Germany}&\\[-12pt]
-		& Speaker at the Airline Revenue Management on the Pricing \& Revenue Management stream. \href{https://www.dropbox.com/s/h7vtkc215zh3r43/OR_2017.pdf?dl=0}{Presentation}.\\[7pt]
-		
+		\cvDate{05/2019}  & \textbf{Airline Group of the International Federation of Operational Research} \\
+		\cvLocation{Panamá}{Panamá} & \textbf{Societies} - AGIFORS 2019\\
+		      & Revenue Management SG yearly \href{https://agifors.org/rm-2019}{meeting}.\spaceBetweenCvEntry
+		\cvDate{09/17} & \textbf{International Conference on Operations Research} - OR 17\\
+		\berlin & Speaker at the Airline Revenue Management on the Pricing \& Revenue Management stream.           \href{https://www.dropbox.com/s/h7vtkc215zh3r43/OR_17.pdf?dl=0}{Presentation}.
 		
 	\end{tabular}
 	
 	
-	%---- Conferences ----%
-	\preSectionSpace
-	\preSectionSpace
-	\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Publications}}}
-	\afterSectionSpace
+	%---- Publications ------------------------------------------------------------------------------------------------------------------%
+	\cvSection{Publications}
 	
 	\begin{tabular}{L!{\VRule}R}
 		
-		09/2017 & \textbf{A  stochastic  dynamic  pricing  model  for  passenger air transportation} - OR 2017\\
-		\footnotesize{Berlin, Germany}&\\[-12pt]
-		& Modelling the airline revenue management pricing problem within a Markov Decision Process. More information \href{https://www.euro-online.org/conf/admin/tmp/program-gor2017.pdf}{here}. \\[7pt]
+		\cvDate{09/17} & \textbf{A  stochastic  dynamic  pricing  model  for  passenger air transportation}\\
+		\berlin & Modelling the airline revenue management pricing problem within a Markov Decision Process. \href{https://www.euro-online.org/conf/admin/tmp/program-gor17.pdf}{Abstract}. 
 
 	\end{tabular}
+ \end{comment}
 	
-	%----- Certificates ----%
-	\preSectionSpace
-	\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Certificates}}}
-	\afterSectionSpace
-	
-	\begin{minipage}{0.3\textwidth}
+	%----- Certifications and Skills %
+            \parbox{1.0\linewidth}{
+                \composedCvSection{Skills}
+                
+                \parbox{0.49\linewidth}{
+		          \begin{flushleft}
+                        \begin{itemize}
+                            \item Programming languages: Python, Javascript, R, Bash
+                            \item Machine Learning Libraries: Tensorflow, PyTorch, Scikit-Learn
+                            \item Infrastructure as Code: Terraform, Bicep, ARM Templates
+                            \item Cloud Platforms: Azure, AWS, GCP
+                            \item Cloud Deployments (Container as a Service): Docker, Kubernetes, Azure Container Registry, docker-compose
+                            \item Cloud Deployments (Function as a Service): Azure Functions (Durable), AWS Lambda, Open FaaS
+                        \end{itemize}
+	       	   \end{flushleft}
+                }
+                \parbox{0.49\linewidth}{
+                     \begin{flushleft}
+                        \begin{itemize}
+                            \item Databases: SQL (SQL Server, PosgreSQL), noSQL (Azure Cosmos)
+        				\item Data Warehousing: Snowflake, BigQuery, Azure Synapse
+        				\item Data Architecture: Microservices, Lambda, Mesh
+                            \item DevOps: Azure DevOps, Github Actions, GitLab CI, Jenkins
+                            \item Orchestration: Airflow, Azure Data Factory
+                            \item Big Data: Spark, Kafka
+                            \item Soft Skills: effective communication, cultural awareness, teamwork
+                        \end{itemize}
+	       	   \end{flushleft}
+                }
+            }
+            
+            \parbox{1.0\linewidth}{
+                \composedCvSection{Certifications}
+                
+                \parbox{0.45\linewidth}{
+                    \begin{flushleft}
+                        \begin{itemize}[label={}]
+                            \item 03/22 Microsoft Certified: Azure Data Engineer
+                            \item 11/21 Hashicorp Certified: Terraform Associate
+                            \item 04/21 Microsoft Certified: Azure Data Scientist Associate
+                        \end{itemize}	
+                    \end{flushleft}
+	       }
+            }
+    
+    %---- Languages %
+	\cvSection{Languages}
+ 
+	\begin{minipage}{1.0\textwidth}
 		\begin{flushleft}
-			\begin{tabular}{ll}
-				04/2020 & \href{https://www.credly.com/badges/80d35358-f45f-4fa4-92d1-54f3289b488e?source=linked_in_profile}{Microsoft Certified: Azure Data Scientist Associate}
-				\\
-			\end{tabular}	
+			\cvSkill{German} (Fluent), \cvSkill{English} (Fluent), \cvSkill{Spanish} (Mother tongue), \cvSkill{French} (Intermediate)
 		\end{flushleft}
 	\end{minipage}
-	
-	
-	%---- Tools and Frameworks ----%
-	\preSectionSpace
-	\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Frameworks \& Tools}}}
-	\afterSectionSpace
-	
-	\begin{minipage}{0.45\textwidth}
-		\begin{flushleft}
-		\noindent
-			\begin{tabular}{ll}
-				Python & \grade{4.6} \\
-				R & \grade{4.6}\\
-				Javascript & \grade{4.0} \\
-				Go / C and other languages & \grade{3.6} \\
-                SQL and Relational DBs & \grade{4.5} \\
-                Data Orchestration & \grade{4.5} \\
-			\end{tabular}
-		\end{flushleft}
-	\end{minipage}
-	\begin{minipage}{0.45\textwidth}
-		\begin{flushleft}
-			\noindent
-			\begin{tabular}{ll}
-				Azure & \grade{4.3} \\
-				AWS & \grade{3.5} \\
-				Google Cloud Platform & \grade{3.3} \\
-				CI/CD & \grade{4.5} \\
-				Serverless Applications & \grade{4.0}\\
-				Kubernetes / Containers & \grade{3.5} \\
-			\end{tabular}
-		\end{flushleft}
-	\end{minipage}
-	
-	\preSectionSpace
+
+        \flushright{\footnotesize{Berlin, \today}}
 	%---- Domain Knowledge ----%
-	%\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Domain Knowledge}}}
+	%\horizontalSpaceBeforeSection\large{\textcolor{mainColor}{\textbf{Domain Knowledge}}}
 	
-	\preSectionSpace
 	
-	%---- Languages ----%
-	\preSectionSpace
-	\preSectionSpace
-	\hspace{0.2cm}\large{\textcolor{mainColor}{\textbf{Languages}}}
-	\afterSectionSpace
-
-	\begin{minipage}{0.3\textwidth}
-		\begin{flushleft}
-			\begin{tabular}{ll}
-				English & Proficient/C1 Level \\[2pt]
-				German & Proficient/C2 Level \\[2pt] 
-				Spanish & Mother tongue\\[2pt] 
-				French & Intermediate/B1 Level\\[2pt] 
-				&\\
-			\end{tabular}	
-		\end{flushleft}
-	\end{minipage}
-	
-	%---- Awards ----%
+	% Awards %
 	%\preSectionSpace
 	%\vspace{0.3cm}
-	%\hspace{0.2cm}{\large{\textcolor{mainColor}{\textbf{Awards}}}}
+	%\horizontalSpaceBeforeSection{\large{\textcolor{mainColor}{\textbf{Awards}}}}
 	%\afterSectionSpace
 	
 	%\begin{tabular}{L!{\VRule}R}   
-    %		10/2012 & Maximum distinction in final examination, Universidad Técnica Federico Santa María \\
-	%	2006 - 2012 & Scholarship for Academic Excellence, Minera Escondida Ltda.
+        %   \cvDate{10/2012} & Maximum distinction in final examination, Universidad Técnica Federico Santa María \\
+	%	\fromBis{2006}{2012} & Scholarship for Academic Excellence, Minera Escondida Ltda.
 	%\end{tabular} 
 	
-	\vspace{0.1cm}
-	\flushright{\small{Berlin, \today}}
+	
 	
 \end{document}
