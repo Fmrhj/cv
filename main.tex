@@ -26,12 +26,11 @@
 \usepackage{wasysym}
 \usepackage{ifsym}
 \usepackage{fontawesome}
-\usepackage{enumitem}
-\setlist[itemize]{label={\tiny\raisebox{1ex}{\textbullet}}, 
+\usepackage[shortlabels]{enumitem}
+\setlist[enumerate]{label={\tiny\raisebox{1ex}{\textbullet}}, 
         labelsep=4pt, 
         itemsep=0.5pt, 
-        before=\normalfont\small, 
-        indent=0pt, 
+        before=\normalfont\small,
         topsep=0pt, 
         leftmargin=*, 
         noitemsep,
@@ -104,7 +103,7 @@
 }
 
 \newcommand{\cvHeader}{
-    \begin{minipage}{1.0\textwidth}	
+    \begin{minipage}{1.0\textwidth}
             \begin{minipage}{0.45\textwidth}
 		      \begin{flushleft}
 		      	\Large{Fernando Zepeda}\\
@@ -133,7 +132,7 @@
     					\begin{minipage}{\socialInfoMinipageSpace\textwidth}
     					    \small{\href{https://www.linkedin.com/in/fernando-zepeda-4b83073a}{Linkedin}}\\
     						\small{\href{https://github.com/Fmrhj}{Fmrhj}} \\
-                                \small{\text{{+49 174 3052810}}}
+                                \small{+49 174 3052810}
     					\end{minipage}
     				\end{center}
     	   \end{flushleft}
@@ -262,19 +261,19 @@
                 
                 \parbox{0.49\linewidth}{
 		          \begin{flushleft}
-                        \begin{itemize}
+                        \begin{enumerate}
                             \item Programming languages: Python, Javascript, R, Bash
                             \item Machine Learning Libraries: Tensorflow, PyTorch, Scikit-Learn
                             \item Infrastructure as Code: Terraform, Bicep, ARM Templates
                             \item Cloud Platforms: Azure, AWS, GCP
                             \item Cloud Deployments (Container as a Service): Docker, Kubernetes, Azure Container Registry, docker-compose
                             \item Cloud Deployments (Function as a Service): Azure Functions (Durable), AWS Lambda, Open FaaS
-                        \end{itemize}
+                        \end{enumerate}
 	       	   \end{flushleft}
                 }
                 \parbox{0.49\linewidth}{
                      \begin{flushleft}
-                        \begin{itemize}
+                        \begin{enumerate}
                             \item Databases: SQL (SQL Server, PosgreSQL), noSQL (Azure Cosmos)
         				\item Data Warehousing: Snowflake, BigQuery, Azure Synapse
         				\item Data Architecture: Microservices, Lambda, Mesh
@@ -282,24 +281,22 @@
                             \item Orchestration: Airflow, Azure Data Factory
                             \item Big Data: Spark, Kafka
                             \item Soft Skills: effective communication, cultural awareness, teamwork
-                        \end{itemize}
+                        \end{enumerate}
 	       	   \end{flushleft}
-                }
-            }
+                }}
             
             \parbox{1.0\linewidth}{
                 \composedCvSection{Certifications}
                 
                 \parbox{0.45\linewidth}{
                     \begin{flushleft}
-                        \begin{itemize}[label={}]
+                        \begin{enumerate}[label={}]
                             \item 03/22 Microsoft Certified: Azure Data Engineer
                             \item 11/21 Hashicorp Certified: Terraform Associate
                             \item 04/21 Microsoft Certified: Azure Data Scientist Associate
-                        \end{itemize}	
+                        \end{enumerate}	
                     \end{flushleft}
-	       }
-            }
+	       }}
     
     %---- Languages %
 	\cvSection{Languages}
