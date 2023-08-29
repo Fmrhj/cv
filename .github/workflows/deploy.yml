@@ -2,7 +2,7 @@ name: Build and release LaTeX CV
 on: [push]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref != 'refs/heads/master' && github.ref || github.run_id }}-${{ github.event_name }}
   cancel-in-progress: true
 
 env:
