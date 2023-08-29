@@ -1,6 +1,10 @@
 name: Build and release LaTeX CV
 on: [push]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   file_name: Zepeda_resume.pdf
 
