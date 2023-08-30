@@ -36,11 +36,6 @@ jobs:
         run: |
           echo "### Bump type: ${{ steps.bumpt.outputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
       
-      #- name: Compile LaTeX document
-      #  uses: xu-cheng/latex-action@v2
-      #  with:
-      #   root_file: main.tex
-      #    latexmk_use_xelatex: true
   compile-latex-and-release:
     needs: get-bump-type
     runs-on: ubuntu-latest
@@ -49,11 +44,15 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-tags: true
+    - name: Compile LaTeX document
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: main.tex
+        latexmk_use_xelatex: true
     - name: Check output
       run: ls -la
     - name: Change PDF name
       run: mv main.pdf ${{ env.file_name }}
-    
     - name: Get new version
       if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'   
       id: gnver
@@ -63,11 +62,16 @@ jobs:
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
         echo "old_version=$old_version" >> $GITHUB_OUTPUT
         echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
+    - name: Create new tag:
+      if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
+      run: |
+        git tag ${{ steps.gnver.outputs.new_version }}
+        git push --tags
     - name: Generate Changelog
       if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore' 
       run: |  
         echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
-        echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.old_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
+        echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
     - name: Release CV
       uses: softprops/action-gh-release@v1
       if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'

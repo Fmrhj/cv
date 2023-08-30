@@ -43,5 +43,3 @@ NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
 
 echo "Tagged with:"
 echo $new_tag
-#git tag $new_tag
-#git push --tags
