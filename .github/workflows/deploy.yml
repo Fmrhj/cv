@@ -14,11 +14,12 @@ jobs:
     outputs: 
         bump_type: $${{ steps.bumpt.outputs.bump_type }}
     steps:
-      - name: Checkout code and tags
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-tags: true
-      - run: git fetch --prune --unshallow --tags
+      - name: Fetch and prone tags
+        run: git fetch --prune --unshallow --tags
       - name: Get bump type
         id: bumpt
         run: |
@@ -54,7 +55,7 @@ jobs:
     - name: Change PDF name
       run: mv main.pdf ${{ env.file_name }}
     - name: Get new version
-      if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'   
+      if: contains(github.ref, 'main') && '${{ needs.get-bump-type.outputs.bump_type }}' != 'chore'
       id: gnver
       run: |
         old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 3 | head -1) 
@@ -68,7 +69,7 @@ jobs:
         git tag ${{ steps.gnver.outputs.new_version }}
         git push --tags
     - name: Generate Changelog
-      if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore' 
+      if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
       run: |  
         echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
         echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
