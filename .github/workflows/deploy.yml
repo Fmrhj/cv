@@ -12,7 +12,7 @@ jobs:
   build_latex:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Git repository
+      - name: Checkout code
         uses: actions/checkout@v2
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
@@ -36,7 +36,6 @@ jobs:
           else
             echo "bump_type='chore'" >> $GITHUB_OUTPUT
           fi
-          echo "🚀 Bump type: $bump_type" >> $GITHUB_STEP_SUMMARY
       - name: Get new version
         if: steps.bumpt.outputs.bump_type != 'chore'
         id: gnver
