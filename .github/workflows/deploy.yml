@@ -36,8 +36,8 @@ jobs:
         run: |
           old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh "${{ steps.bumpt.outputs.bump_type }}" | tail -n 3 | head -1) 
           new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh "${{ steps.bumpt.outputs.bump_type }}" | tail -n 1)
-          echo "new_version=new_version" >> $GITHUB_OUTPUT
-          echo "old_version=old_version" >> $GITHUB_OUTPUT
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "old_version=$old_version" >> $GITHUB_OUTPUT
           echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
       - name: Generate Changelog
         if: ${{ steps.bumpt.outputs.bump_type }} != 'chore'
