@@ -47,49 +47,38 @@ jobs:
           fetch-tags: true
       - name: Fetch and prone tags
         run: git fetch --prune --unshallow --tags
-      #- name: Compile LaTeX document
-      #  uses: xu-cheng/latex-action@v2
-      #  with:
-      #    root_file: main.tex
-      #    latexmk_use_xelatex: true
-      #- name: Check output
-      #  run: ls -la
-      #- name: Change PDF name
-      #  run: mv main.pdf ${{ env.file_name }}
-      - name: Log dependency
-        id: localb
-        run: |
-          echo "bump_type=${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
-          echo ${{ needs.get-bump-type.outputs.bump_type }} != chore
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+           root_file: main.tex
+          latexmk_use_xelatex: true
+      - name: Check output
+        run: ls -la
+      - name: Change PDF name
+        run: mv main.pdf ${{ env.file_name }}
       - name: Get new version
         if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         id: gnver
         run: |
-          if [[ '${{ needs.get-bump-type.outputs.bump_type }}' != 'chore' ]]; then
-            old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 3 | head -1) 
-            new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 1)
-          else
-            old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 1)
-            new_version=$old_version
-          fi
-          
+          old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 3 | head -1) 
+          new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 1)
           echo $new_version
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "old_version=$old_version" >> $GITHUB_OUTPUT
           echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
       - name: Create new tag
-        if: endsWith(github.ref, 'main')
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         run: |
           git tag ${{ steps.gnver.outputs.new_version }}
           git push --tags
           git push origin ${{ steps.gnver.outputs.new_version }}
       - name: Generate Changelog
-        if: endsWith(github.ref, 'main')
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         run: |
           echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
           echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
       - name: Release CV
-        if: endsWith(github.ref, 'main')
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.gnver.outputs.new_version }}
