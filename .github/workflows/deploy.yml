@@ -62,7 +62,7 @@ jobs:
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
         echo "old_version=$old_version" >> $GITHUB_OUTPUT
         echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
-    - name: Create new tag:
+    - name: Create new tag
       if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
       run: |
         git tag ${{ steps.gnver.outputs.new_version }}
