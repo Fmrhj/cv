@@ -57,11 +57,12 @@ jobs:
       #- name: Change PDF name
       #  run: mv main.pdf ${{ env.file_name }}
       - name: Log dependency
+        id: localb
         run: |
-          echo ${{ needs.get-bump-type.outputs.bump_type }}
-          echo ${{ needs.get-bump-type.outputs.bump_type }} >> GITHUB_STEP_SUMMARY
+          echo "bump_type=${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
+          
       - name: Get new version
-        if: endsWith(github.ref, 'main')
+        if: endsWith(github.ref, 'main') && ${{ steps.localb.outputs.bump_type }} != 'chore'
         id: gnver
         run: |
           old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 3 | head -1) 
