@@ -7,24 +7,81 @@ concurrency:
 
 env:
   file_name: Zepeda_resume.pdf
+  latex_file: main.tex
 
 jobs:
-  build_latex:
+  get-bump-type:
+    runs-on: ubuntu-latest
+    outputs:
+      bump_type: ${{ steps.bumpt.outputs.bump_type }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-tags: true
+      - name: Fetch and prone tags
+        run: git fetch --prune --unshallow --tags
+      - name: Get bump type
+        id: bumpt
+        run: |
+          commit_message='${{ github.event.head_commit.message }}'
+          if [[ $commit_message == *"BREAKING CHANGE"* ]]; then
+            echo "bump_type=major" >> $GITHUB_OUTPUT
+          elif [[ $commit_message == *"feat"* ]]; then
+            echo "bump_type=minor" >> $GITHUB_OUTPUT
+          elif [[ $commit_message == *"fix"* ]]; then
+            echo "bump_type=patch" >> $GITHUB_OUTPUT
+          else
+            echo "bump_type=chore" >> $GITHUB_OUTPUT
+          fi
+      - name: Log bump type
+        run: |
+          echo "### Bump type: ${{ steps.bumpt.outputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
+
+  compile-latex-and-release:
+    needs: get-bump-type
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v2
+      - name: Checkout code and tags
+        uses: actions/checkout@v3
+        with:
+          fetch-tags: true
+      - name: Fetch and prone tags
+        run: git fetch --prune --unshallow --tags
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: main.tex
+          root_file: ${{ env.latex_file }}
           latexmk_use_xelatex: true
       - name: Check output
         run: ls -la
       - name: Change PDF name
         run: mv main.pdf ${{ env.file_name }}
+      - name: Get new version
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
+        id: gnver
+        run: |
+          old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 3 | head -1) 
+          new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 1)
+          echo $new_version
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "old_version=$old_version" >> $GITHUB_OUTPUT
+          echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
+      - name: Create new tag
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
+        run: |
+          git tag ${{ steps.gnver.outputs.new_version }}
+          git push --tags
+          git push origin ${{ steps.gnver.outputs.new_version }}
+      - name: Generate Changelog
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
+        run: |
+          echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
+          echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
       - name: Release CV
+        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: ${{ steps.gnver.outputs.new_version }}
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: ${{ env.file_name }}
