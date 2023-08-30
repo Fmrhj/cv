@@ -66,8 +66,9 @@ jobs:
         id: gnver
         run: |
           echo ${{ needs.get-bump-type.outputs.bump_type }}
-          old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 3 | head -1) 
-          new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 1)
+          old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 3 | head -1) 
+          new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 1)
+          echo $new_version
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "old_version=$old_version" >> $GITHUB_OUTPUT
           echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
