@@ -2,9 +2,6 @@
 
 bump_type=$1
 
-# ensure local tags are current
-git fetch --tags origin
-
 curr_tag="`git describe --abbrev=0 --tags 2>/dev/null`"
 
 if [[ $curr_tag == '' ]]
@@ -23,7 +20,6 @@ curr_minor=$((${curr_version_bits[1]}))
 curr_patch=$((${curr_version_bits[2]}))
 
 if [ "$bump_type" == "chore" ]; then 
-    echo "Chore bump, skipping"
     exit 0
 elif [ "$bump_type" == "major" ] || ([ "$curr_minor" == 999 ] && [ "$curr_patch" == 999 ]); then
     ((curr_major++))
