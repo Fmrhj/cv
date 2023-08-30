@@ -2,6 +2,9 @@
 
 bump_type=$1
 
+# ensure local tags are current
+git fetch --tags origin
+
 curr_tag="`git describe --abbrev=0 --tags 2>/dev/null`"
 
 if [[ $curr_tag == '' ]]
