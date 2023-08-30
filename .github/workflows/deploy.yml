@@ -23,8 +23,33 @@ jobs:
         run: ls -la
       - name: Change PDF name
         run: mv main.pdf ${{ env.file_name }}
+      - name: Get bump type
+        id: bumpt
+        run: |
+          commit_message=${{ github.event.head_commit.message }}
+          if [[ $commit_message == *"BREAKING CHANGE"*]]; then
+            echo "bump_type=major" >> $GITHUB_OUTPUT
+          elif [[ $commit_message == *"feat"*]]; then
+            echo "bump_type=minor" >> $GITHUB_OUTPUT
+          elif [[ $commit_message == *"fix"* ]]; then
+            echo "$bump_type=patch" >> $GITHUB_OUTPUT
+          else
+            echo "$bump_type=chore" >> $GITHUB_OUTPUT
+          fi
+      - name: Get new version
+        id: gnver
+        run: |
+          old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh | tail -n 3 | head -1) 
+          new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh | tail -n 1)
+          echo "new_version=new_version" >> $GITHUB_OUTPUT
+          echo "old_version=old_version" >> $GITHUB_OUTPUT
+      - name: Generate Changelog
+        run: |
+          echo "## What has changed" > ${{ github.workspace }}-CHANGELOG.txt
+          echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version}}" > ${{ github.workspace }}-CHANGELOG.txt
       - name: Release CV
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') && steps.bumpt.outputs.bump_type != 'chore'
         with:
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: ${{ env.file_name }}
