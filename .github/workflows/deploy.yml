@@ -26,7 +26,7 @@ jobs:
       - name: Get bump type
         id: bumpt
         run: |
-          commit_message=${{ github.event.head_commit.message }}
+          commit_message='${{ github.event.head_commit.message }}'
           if [[ $commit_message == *"BREAKING CHANGE"* ]]; then
             echo "bump_type='major'" >> $GITHUB_OUTPUT
           elif [[ $commit_message == *"feat"* ]]; then
