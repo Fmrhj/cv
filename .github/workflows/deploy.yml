@@ -14,15 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: main.tex
-          latexmk_use_xelatex: true
-      - name: Check output
-        run: ls -la
-      - name: Change PDF name
-        run: mv main.pdf ${{ env.file_name }}
       - name: Get bump type
         id: bumpt
         run: |
@@ -44,12 +35,21 @@ jobs:
           new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh "${{ steps.bumpt.outputs.bump_type }}" | tail -n 1)
           echo "new_version=new_version" >> $GITHUB_OUTPUT
           echo "old_version=old_version" >> $GITHUB_OUTPUT
-          echo "🚀 New version: $old_version" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
       - name: Generate Changelog
         if: steps.bumpt.outputs.bump_type != 'chore'
         run: |
           echo "## What has changed" > ${{ github.workspace }}-CHANGELOG.txt
           echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version}}" > ${{ github.workspace }}-CHANGELOG.txt
+          - name: Compile LaTeX document
+          uses: xu-cheng/latex-action@v2
+          with:
+            root_file: main.tex
+            latexmk_use_xelatex: true
+      - name: Check output
+        run: ls -la
+      - name: Change PDF name
+        run: mv main.pdf ${{ env.file_name }}
       - name: Release CV
         uses: softprops/action-gh-release@v1
         if: contains(github.ref, 'main') && steps.bumpt.outputs.bump_type != 'chore'
