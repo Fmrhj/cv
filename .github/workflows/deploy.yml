@@ -27,14 +27,14 @@ jobs:
         id: bumpt
         run: |
           commit_message=${{ github.event.head_commit.message }}
-          if [[ $commit_message == *"BREAKING CHANGE"*]]; then
+          if [[ $commit_message == *"BREAKING CHANGE"* ]]; then
             echo "bump_type=major" >> $GITHUB_OUTPUT
-          elif [[ $commit_message == *"feat"*]]; then
+          elif [[ $commit_message == *"feat"* ]]; then
             echo "bump_type=minor" >> $GITHUB_OUTPUT
           elif [[ $commit_message == *"fix"* ]]; then
-            echo "$bump_type=patch" >> $GITHUB_OUTPUT
+            echo "bump_type=patch" >> $GITHUB_OUTPUT
           else
-            echo "$bump_type=chore" >> $GITHUB_OUTPUT
+            echo "bump_type=chore" >> $GITHUB_OUTPUT
           fi
       - name: Get new version
         id: gnver
