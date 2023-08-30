@@ -8,6 +8,7 @@ concurrency:
 env:
   file_name: Zepeda_resume.pdf
   latex_file: main.tex
+  github_repository: https://github.com/Fmrhj
 
 jobs:
   get-bump-type:
@@ -77,7 +78,8 @@ jobs:
         if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         run: |
           echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
-          echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
+          echo "${{ github.event.head_commit.message}}" >> "${{ github.workspace }}-CHANGELOG.txt"
+          echo "**Full Changelog**: ${{ env.github_repository }}/cv/compare/${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
       - name: Release CV
         if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
         uses: softprops/action-gh-release@v1
