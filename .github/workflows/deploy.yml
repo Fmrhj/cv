@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get bump type
         id: bumpt
         run: |
@@ -27,6 +27,9 @@ jobs:
           else
             echo "bump_type='chore'" >> $GITHUB_OUTPUT
           fi
+      - name: Log bump type
+        run: |
+          echo "🚀 New version: ${{ steps.bumpt.outputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
       - name: Get new version
         if: steps.bumpt.outputs.bump_type != 'chore'
         id: gnver
