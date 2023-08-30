@@ -37,6 +37,7 @@ jobs:
             echo "bump_type='chore'" >> $GITHUB_OUTPUT
           fi
       - name: Get new version
+        if: steps.bumpt.outputs.bump_type != 'chore'
         id: gnver
         run: |
           old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh | tail -n 3 | head -1) 
@@ -44,12 +45,13 @@ jobs:
           echo "new_version=new_version" >> $GITHUB_OUTPUT
           echo "old_version=old_version" >> $GITHUB_OUTPUT
       - name: Generate Changelog
+        if: steps.bumpt.outputs.bump_type != 'chore'
         run: |
           echo "## What has changed" > ${{ github.workspace }}-CHANGELOG.txt
           echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version}}" > ${{ github.workspace }}-CHANGELOG.txt
       - name: Release CV
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && steps.bumpt.outputs.bump_type != 'chore'
+        if: contains(github.ref, 'main') && steps.bumpt.outputs.bump_type != 'chore'
         with:
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: ${{ env.file_name }}
