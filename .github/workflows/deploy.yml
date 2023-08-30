@@ -70,13 +70,13 @@ jobs:
         echo "old_version=$old_version" >> $GITHUB_OUTPUT
         echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
     - name: Create new tag
-      if: endsWith(github.ref, 'main') || ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
+      if: endsWith(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
       run: |
         git tag ${{ steps.gnver.outputs.new_version }}
         git push --tags
         git push origin ${{ steps.gnver.outputs.new_version }} 
     - name: Generate Changelog
-      if: endsWith(github.ref, 'main') || ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
+      if: endsWith(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
       run: |  
         echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
         echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
