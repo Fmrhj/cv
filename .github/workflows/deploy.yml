@@ -60,7 +60,7 @@ jobs:
         id: localb
         run: |
           echo "bump_type=${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
-          
+          echo ${{ needs.get-bump-type.outputs.bump_type }} != chore
       - name: Get new version
         if: ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
         id: gnver
