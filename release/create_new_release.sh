@@ -25,7 +25,7 @@ curr_major=$((${curr_version_bits[0]}))
 curr_minor=$((${curr_version_bits[1]}))
 curr_patch=$((${curr_version_bits[2]}))
 
-elif [ "$bump_type" == "major" ] || ([ "$curr_minor" == 999 ] && [ "$curr_patch" == 999 ]); then
+if [ "$bump_type" == "major" ] || ([ "$curr_minor" == 999 ] && [ "$curr_patch" == 999 ]); then
     ((curr_major++))
     curr_minor=0
     curr_patch=0
