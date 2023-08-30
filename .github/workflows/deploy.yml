@@ -59,7 +59,7 @@ jobs:
       - name: Log dependency
         id: localb
         run: |
-          echo "bump_type= ${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
+          echo "bump_type=${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
           
       - name: Get new version
         if: ${{ steps.localb.outputs.bump_type }} != 'chore'
