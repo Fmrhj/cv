@@ -14,7 +14,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - run: git fetch --prune --unshallow --tags
+        with:
+          fetch-tags: true
+      #- run: git fetch --prune --unshallow --tags
       - name: Get bump type
         id: bumpt
         run: |
@@ -48,11 +50,12 @@ jobs:
         run: |
           echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
           echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
-          - name: Compile LaTeX document
-          uses: xu-cheng/latex-action@v2
-          with:
-            root_file: main.tex
-            latexmk_use_xelatex: true
+      
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          latexmk_use_xelatex: true
       - name: Check output
         run: ls -la
       - name: Change PDF name
