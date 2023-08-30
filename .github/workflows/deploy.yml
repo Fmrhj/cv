@@ -7,6 +7,7 @@ concurrency:
 
 env:
   file_name: Zepeda_resume.pdf
+  latex_file: main.tex
 
 jobs:
   get-bump-type:
@@ -50,7 +51,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
-           root_file: main.tex
+          root_file: ${{ env.latex_file }}
           latexmk_use_xelatex: true
       - name: Check output
         run: ls -la
