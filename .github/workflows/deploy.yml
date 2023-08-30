@@ -9,10 +9,14 @@ env:
   file_name: Zepeda_resume.pdf
 
 jobs:
-  build_latex:
+  get-release:
     runs-on: ubuntu-latest
+    outputs: 
+        bump_type: $${{ steps.bumpt.outputs.bump_type }}
+        old_version: ${{ steps.gnver.outputs.old_version }}
+        new_version: ${{ steps.gnver.outputs.new_version }}
     steps:
-      - name: Checkout code
+      - name: Checkout code and tags
         uses: actions/checkout@v3
         with:
           fetch-tags: true
@@ -37,7 +41,6 @@ jobs:
         run: |
           echo "### Bump type: ${{ steps.bumpt.outputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
       - name: Get new version
-        if: ${{ steps.bumpt.outputs.bump_type }} != 'chore'
         id: gnver
         run: |
           old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ steps.bumpt.outputs.bump_type }} | tail -n 3 | head -1) 
@@ -45,24 +48,32 @@ jobs:
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "old_version=$old_version" >> $GITHUB_OUTPUT
           echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
-      - name: Generate Changelog
-        if: ${{ steps.bumpt.outputs.bump_type }} != 'chore'
-        run: |
-          echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
-          echo "Full Changelog: ${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
       
       #- name: Compile LaTeX document
       #  uses: xu-cheng/latex-action@v2
       #  with:
       #   root_file: main.tex
       #    latexmk_use_xelatex: true
-      - name: Check output
-        run: ls -la
-      - name: Change PDF name
-        run: mv main.pdf ${{ env.file_name }}
-      - name: Release CV
-        uses: softprops/action-gh-release@v1
-        if: contains(github.ref, 'main') && ${{ steps.bumpt.outputs.bump_type }} != 'chore'
-        with:
-          body_path: ${{ github.workspace }}-CHANGELOG.txt
-          files: ${{ env.file_name }}
+  compile-latex:
+    needs: get-release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code and tags
+      uses: actions/checkout@v3
+      with:
+        fetch-tags: true
+    - name: Check output
+      run: ls -la
+    - name: Change PDF name
+      run: mv main.pdf ${{ env.file_name }}
+    - name: Generate Changelog
+      if: contains(github.ref, 'main') && ${{ needs.get-release.outputs.bump_type }} != 'chore' 
+      run: |  
+        echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
+        echo "Full Changelog: ${{ needs.get-release.outputs.old_version }}...${{ needs.get-release.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
+    - name: Release CV
+      uses: softprops/action-gh-release@v1
+      if: contains(github.ref, 'main') && ${{ needs.get-release.outputs.bump_type }} != 'chore'
+      with:
+        body_path: ${{ github.workspace }}-CHANGELOG.txt
+        files: ${{ env.file_name }}
