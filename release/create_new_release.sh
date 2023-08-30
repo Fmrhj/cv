@@ -2,6 +2,7 @@
 
 bump_type=$1
 
+git fetch --tags origin
 curr_tag="`git describe --abbrev=0 --tags 2>/dev/null`"
 
 if [[ $curr_tag == '' ]]
