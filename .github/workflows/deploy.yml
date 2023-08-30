@@ -62,7 +62,7 @@ jobs:
           echo "bump_type= ${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
           
       - name: Get new version
-        if: endsWith(github.ref, 'main') and !contains(${{ steps.localb.outputs.bump_type }}, 'chore')
+        if: ${{ steps.localb.outputs.bump_type }} != 'chore'
         id: gnver
         run: |
           echo ${{ steps.localb.outputs.bump_type }}
