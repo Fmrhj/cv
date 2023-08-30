@@ -36,6 +36,7 @@ jobs:
           else
             echo "bump_type='chore'" >> $GITHUB_OUTPUT
           fi
+          echo "🚀 Bump type: $bump_type" >> $GITHUB_STEP_SUMMARY
       - name: Get new version
         if: steps.bumpt.outputs.bump_type != 'chore'
         id: gnver
@@ -44,6 +45,7 @@ jobs:
           new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh | tail -n 1)
           echo "new_version=new_version" >> $GITHUB_OUTPUT
           echo "old_version=old_version" >> $GITHUB_OUTPUT
+          echo "🚀 New version: $old_version" >> $GITHUB_STEP_SUMMARY
       - name: Generate Changelog
         if: steps.bumpt.outputs.bump_type != 'chore'
         run: |
