@@ -45,6 +45,8 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-tags: true
+    - name: Fetch and prone tags
+      run: git fetch --prune --unshallow --tags
     #- name: Compile LaTeX document
     #  uses: xu-cheng/latex-action@v2
     #  with:
@@ -59,7 +61,7 @@ jobs:
         echo ${{ needs.get-bump-type.outputs.bump_type }}
         echo ${{ needs.get-bump-type.outputs.bump_type }} >> GITHUB_STEP_SUMMARY 
     - name: Get new version
-      if: endsWith(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
+      if: endsWith(github.ref, 'main')
       id: gnver
       run: |
         old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 3 | head -1) 
