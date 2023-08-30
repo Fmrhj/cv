@@ -59,12 +59,13 @@ jobs:
       - name: Log dependency
         id: localb
         run: |
-          echo "bump_type=${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
+          echo "bump_type= ${{ needs.get-bump-type.outputs.bump_type }}" >> GITHUB_OUTPUT
           
       - name: Get new version
-        if: endsWith(github.ref, 'main') && ${{ steps.localb.outputs.bump_type }} != 'chore'
+        if: endsWith(github.ref, 'main') && contains(${{ steps.localb.outputs.bump_type }}, 'chore')
         id: gnver
         run: |
+          echo ${{ steps.localb.outputs.bump_type }}
           old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 3 | head -1) 
           new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 1)
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
