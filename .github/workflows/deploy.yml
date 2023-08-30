@@ -83,5 +83,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.gnver.outputs.new_version }}
+          tag_name: ${{ steps.gnver.outputs.new_version }}
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: ${{ env.file_name }}
