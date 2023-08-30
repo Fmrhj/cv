@@ -45,17 +45,21 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-tags: true
-    - name: Compile LaTeX document
-      uses: xu-cheng/latex-action@v2
-      with:
-        root_file: main.tex
-        latexmk_use_xelatex: true
-    - name: Check output
-      run: ls -la
-    - name: Change PDF name
-      run: mv main.pdf ${{ env.file_name }}
+    #- name: Compile LaTeX document
+    #  uses: xu-cheng/latex-action@v2
+    #  with:
+    #    root_file: main.tex
+    #    latexmk_use_xelatex: true
+    #- name: Check output
+    #  run: ls -la
+    #- name: Change PDF name
+    #  run: mv main.pdf ${{ env.file_name }}
+    - name: Log dependency
+      run: |
+        echo ${{ needs.get-bump-type.outputs.bump_type }}
+        echo ${{ needs.get-bump-type.outputs.bump_type }} >> GITHUB_STEP_SUMMARY 
     - name: Get new version
-      if: contains(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
+      if: endsWith(github.ref, 'main') && ${{ needs.get-bump-type.outputs.bump_type }} != 'chore'
       id: gnver
       run: |
         old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh ${{ needs.get-bump-type.outputs.bump_type }} | tail -n 3 | head -1) 
