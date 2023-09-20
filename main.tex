@@ -50,8 +50,8 @@
 \ofoot*{\pagemark}
 
 % constants 
-\newcommand{\preSectionSpace}{\vspace{4pt}}
-\newcommand{\afterSectionSpace}{\vspace{3pt}}
+\newcommand{\preSectionSpace}{\vspace{3.5pt}}
+\newcommand{\afterSectionSpace}{\vspace{2.5pt}}
 \newcommand{\horizontalSpaceBeforeSection}{\hspace{0.1cm}}
 \newcommand{\cvSubtitle}[1]{\textcolor{mainColor}{\normalsize{#1}}}
 \newcommand{\companyName}[1]{\textbf{\textcolor{secondaryColor}{#1}}}
@@ -69,7 +69,7 @@
 \newcommand{\cvSkill}[1]{\footnotesize{#1}}
 \newcommand{\spaceBetweenCvEntry}{\\[6pt]}
 
-\newcommand{\sbt}{\ \ \ \begin{picture}(-1,1)(-1,-3)\circle*{3}\end{picture}  \  }
+\newcommand{\sbt}{$\cdot$ }
 \newcommand{\berlin}{\cvLocation{Berlin}{Germany}}
 \newcommand{\gmbh}{GmbH}
 \newcommand{\qurix}{Qurix Technology \gmbh}
@@ -163,21 +163,22 @@
 	
 	\begin{tabular}{L!{\VRule}R}
 		  \fromBis{04/22}{present} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
-		\berlin & \sbt Engineering Lead and Data Engineer with a strong focus on the energy sector.\\
-                    & \sbt Proficient in designing and maintaining Cloud Infrastructure and pipelines for large volumes of data.\\
-                    & \sbt Skilled in Cloud technologies and Microservices Architecture.\\
-                    & \sbt Lead the design and standardization of solutions for the development of new Machine Learning services for different customers.\spaceBetweenCvEntry
+		\berlin & \sbt Engineering lead and data engineer with a strong focus on the energy sector.\\
+                    & \sbt Proficient in designing and maintaining cloud infrastructure and data pipelines for data applications.\\
+                    & \sbt Skilled in cloud technologies and system architectures.\\
+                    & \sbt Lead the solution design and development of machine learning services in different use cases.\spaceBetweenCvEntry
 	
             \fromBis{07/20}{02/22} & \jobTitle{Data Engineer and Senior Analytics Consultant} - \companyName{\pexon}\\
-		\berlin & \sbt Specialized in Data and ML Ops, with a focus on backend development for a leading energy sector company, specializing in Data Analytics, Pricing, and Portfolio Management.\\
+		\berlin & \sbt Specialized in data and ML ops, with focus on backend development for a leading company in the energy sector.\\
+                    & \sbt Expertise in data analytics, pricing and energy portfolio management.\\
                     & \sbt Developed and maintained data pipelines for a critical energy portfolio application.\\
-                    & \sbt Contributed on the software release and backend development for different customers.\\
+                    & \sbt Actively contributed on backend development and software release for different customers.\\
                     & \sbt Designed and implemented the enhancement of ETL pipelines for a prominent German television broadcaster.\spaceBetweenCvEntry
                     
 		\fromBis{09/17}{06/20} &\jobTitle{Data Scientist and Data Engineer} - \companyName{\lsy}\\
-		\berlin & \sbt Specialized in Airline Revenue Management and Pricing with a strong emphasis on Operations Research, Data Engineering, Predictive Analytics, and Machine Learning expertise.\\
-                  & \sbt Enhanced capacity allocation and forecasting at major airline hubs by developing and implementing advanced algorithms within a critical application.\\
-                  & \sbt Deployed an end-to-end application to predict stranded passengers to optimize daily hotel demand at main hubs.\\
+		\berlin & \sbt Specialized in airline revenue management and pricing with a strong emphasis on operations research, data engineering, predictive analytics and machine learning.\\
+                  & \sbt Enhanced airline capacity allocation and demand forecasting at major hubs by developing and implementing advanced algorithms within a critical application.\\
+                  & \sbt Deployed an end-to-end application to predict stranded passengers in order to optimize daily hotel demands at main hubs.\\
                   & \sbt Conceptualized and prototyped dynamic bundling and pricing strategies for flight ancillaries.\spaceBetweenCvEntry
                         		
 		\fromBis{09/16}{08/17} & \jobTitle{Masterand and Student Assistant} - \companyName{\lsy}\\ 
@@ -279,7 +280,7 @@
         				\item Data Architecture: Microservices, Lambda, Mesh
                             \item DevOps: Azure DevOps, Github Actions, GitLab CI, Jenkins
                             \item Orchestration: Airflow, Azure Data Factory
-                            \item Big Data: Spark, Kafka
+                            \item Big Data: PySpark (Databricks), Kafka (Confluent)
                             \item Soft Skills: effective communication, cultural awareness, teamwork
                         \end{enumerate}
 	       	   \end{flushleft}
