@@ -14,7 +14,7 @@
 \definecolor{lightGray}{gray}{0.8}
 \usepackage[colorlinks, breaklinks, urlcolor=linkcolour, linkcolor=linkcolour, pdfstartview=FitH, bookmarks=false]{hyperref} 
 \usepackage{CV}
-\usepackage[margin=0.26in]{geometry}
+\usepackage[margin=0.25in]{geometry}
 \usepackage[english]{babel}
 \usepackage{tikz}
 \usepackage{tikzpagenodes}
@@ -26,7 +26,6 @@
 \usepackage{wasysym}
 \usepackage{ifsym}
 \usepackage{fontawesome}
-\usepackage{censor}
 \usepackage[shortlabels]{enumitem}
 \setlist[enumerate]{label={\tiny\raisebox{1ex}{\textbullet}}, 
         labelsep=4pt, 
@@ -76,7 +75,6 @@
 \newcommand{\qurix}{Qurix Technology \gmbh}
 \newcommand{\lsy}{Lufthansa Systems \gmbh \ \& Co. KG}
 \newcommand{\pexon}{Pexon Consulting \gmbh}
-\newcommand{\vw}{Volkswagen A.G}
 
 % font
 \renewcommand{\familydefault}{\sfdefault} 
@@ -134,7 +132,7 @@
     					\begin{minipage}{\socialInfoMinipageSpace\textwidth}
     					    \small{\href{https://www.linkedin.com/in/fernando-zepeda-4b83073a}{Linkedin}}\\
     						\small{\href{https://github.com/Fmrhj}{Fmrhj}} \\
-                                \censor{\small{+49 1743052810}}
+                                \small{+49 1743052810}
     					\end{minipage}
     				\end{center}
     	   \end{flushleft}
@@ -164,11 +162,7 @@
 	\cvSection{Experience}
 	
 	\begin{tabular}{L!{\VRule}R}
-            \fromBis{03/24}{present} & \jobTitle{Backend and Data Engineer} - \companyName{\vw}\\
-		\berlin & \sbt Backend Engineer in analytics projects for data analytics and AI projects for commercial vehicles.\\
-                    & \sbt Implementing data services for busines.\spaceBetweenCvEntry
-	
-		  \fromBis{04/22}{02/24} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
+		  \fromBis{04/22}{present} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
 		\berlin & \sbt Engineering lead and data engineer with a strong focus on the energy sector.\\
                     & \sbt Proficient in designing and maintaining cloud infrastructure and data pipelines for data applications.\\
                     & \sbt Skilled in cloud technologies and system architectures.\\
@@ -181,15 +175,16 @@
                     & \sbt Actively contributed on backend development and software release for different customers.\\
                     & \sbt Designed and implemented the enhancement of ETL pipelines for a prominent German television broadcaster.\spaceBetweenCvEntry
                     
-		\fromBis{09/16}{06/20} &\jobTitle{Data Scientist and Data Engineer} - \companyName{\lsy}\\
+		\fromBis{09/17}{06/20} &\jobTitle{Data Scientist and Data Engineer} - \companyName{\lsy}\\
 		\berlin & \sbt Specialized in airline revenue management and pricing with a strong emphasis on operations research, data engineering, predictive analytics and machine learning.\\
                   & \sbt Enhanced airline capacity allocation and demand forecasting at major hubs by developing and implementing advanced algorithms within a critical application.\\
                   & \sbt Deployed an end-to-end application to predict stranded passengers in order to optimize daily hotel demands at main hubs.\\
-                  & \sbt Conceptualized and prototyped dynamic bundling and pricing strategies for flight ancillaries\\
-                  & \rule{\columnwidth}{0.5pt} \\
-                  & \sbt Masterand and Student Assistant: Expertise in ML-driven passenger demand estimation and bid price optimization. Master's thesis on "Airline Stochastic Dynamic Pricing Model": Reinforcement Learning for optimal pricing strategies in single-leg flights.
+                  & \sbt Conceptualized and prototyped dynamic bundling and pricing strategies for flight ancillaries.\spaceBetweenCvEntry
                         		
-		\begin{comment}		
+		\fromBis{09/16}{08/17} & \jobTitle{Masterand and Student Assistant} - \companyName{\lsy}\\ 
+		\berlin & \sbt Expertise in ML-driven passenger demand estimation and bid price optimization. Master's thesis on "Airline Stochastic Dynamic Pricing Model": Reinforcement Learning for optimal pricing strategies in single-leg flights.
+
+            \begin{comment}		
                 \fromBis{04/2014}{09/2015} & \jobTitle{Student Assistant} - \companyName{Wintershall Erdgas Handelhaus GmbH \& Co. KG - BASF}\\
 		      \footnotesize{Berlin, Germany} & Database management -- Logistics \\
 		      &\\[-9pt]
