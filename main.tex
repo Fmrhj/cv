@@ -1,193 +1,188 @@
-\documentclass[a4paper, 12]{scrartcl}
+\documentclass[a4paper,12pt,usenames,dvipsnames]{scrartcl}
 
-\usepackage{tabularx}
-\usepackage{lastpage}
+\usepackage[margin=0.20in]{geometry}
+\usepackage[english]{babel}
+\usepackage{graphicx}       % Figures
+\usepackage{tabularx, array, ragged2e}
 \usepackage{scrlayer-scrpage}
 \usepackage{url}
-\usepackage{array}
-% colors
-\usepackage[usenames, dvipsnames]{xcolor}
-\definecolor{linkcolour}{RGB}{28,0,128} 
-\definecolor{newGray}{gray}{0.4}
-\definecolor{mainColor}{RGB}{0, 20, 45} 
-\definecolor{secondaryColor}{RGB}{51,0,123}
-\definecolor{lightGray}{gray}{0.8}
-\usepackage[colorlinks, breaklinks, urlcolor=linkcolour, linkcolor=linkcolour, pdfstartview=FitH, bookmarks=false]{hyperref} 
-\usepackage{CV}
-\usepackage[margin=0.26in]{geometry}
-\usepackage[english]{babel}
 \usepackage{tikz}
-\usepackage{tikzpagenodes}
-\usetikzlibrary{calc} 
-\usepackage{ae,aecompl} 
-\usepackage{graphicx} % figures
-\usepackage{marvosym} % symbols ->
-\usepackage{pifont} 
+\usetikzlibrary{calc, shapes, backgrounds}
+
+% Symbols and fonts
+\usepackage{marvosym}       % Symbols
+\usepackage{pifont}
 \usepackage{wasysym}
 \usepackage{ifsym}
 \usepackage{fontawesome}
-\usepackage{censor}
-\usepackage[shortlabels]{enumitem}
-\setlist[enumerate]{label={\tiny\raisebox{1ex}{\textbullet}}, 
-        labelsep=4pt, 
-        itemsep=0.5pt, 
-        before=\normalfont\small,
-        topsep=0pt, 
-        leftmargin=*, 
-        noitemsep,
-        topsep=0pt, 
-        nolistsep
-}
 \usepackage{textcomp}
-\usepackage[LabelsAligned]{currvita} 
+
+\usepackage[shortlabels]{enumitem}
+\setlist[enumerate]{%
+    label={\tiny\raisebox{1ex}{\textbullet}}, 
+    labelsep=4pt,
+    itemsep=0.25pt,
+    before=\normalfont\small,
+    topsep=0pt,
+    leftmargin=*,
+    noitemsep,
+    nolistsep
+}
+
+\usepackage{currvita}[LabelsAligned]
 \usepackage{verbatim}
 \usepackage[none]{hyphenat}
-\usepackage{tabularx,ragged2e}
+\usepackage{censor}
+\usepackage{ae, aecompl} % Font encoding fixes
 
+% --- Colors ---
+\definecolor{mainColor}{RGB}{15, 35, 60} % dark navy with a hint of slate
+\definecolor{accentColor}{RGB}{0, 130, 160}  % a teal-ish blue
+\definecolor{linkcolour}{RGB}{0, 110, 180}
+\definecolor{secondaryColor}{RGB}{51,0,123}
+\definecolor{lightGray}{gray}{0.8}
+
+\usepackage[usenames,dvipsnames]{xcolor} % Colors
+\usepackage[colorlinks, breaklinks, urlcolor=linkcolour, linkcolor=linkcolour, pdfstartview=FitH, bookmarks=false]{hyperref}
+
+% --- Page style ---
 \renewcommand\pagemark{{\usekomafont{pagenumber}\thepage\ of \pageref{LastPage}}}
-
 \clearpairofpagestyles
 \ohead{\headmark}
 \ofoot*{\pagemark}
 
-% constants 
-\newcommand{\preSectionSpace}{\vspace{3.5pt}}
-\newcommand{\afterSectionSpace}{\vspace{2.5pt}}
+% --- Fonts ---
+\renewcommand{\familydefault}{\sfdefault}
+\sloppy
+
+% --- Custom column types ---
+\newcolumntype{L}{>{\raggedleft}p{0.110\textwidth}}
+\newcolumntype{R}{p{0.84\textwidth}}
+\newcommand\VRule{\color{lightGray}\vrule width 0.25pt}
+
+% --- Spacing commands ---
+\newcommand{\preSectionSpace}{\vspace{3.2pt}}
+\newcommand{\afterSectionSpace}{\vspace{2.3pt}}
 \newcommand{\horizontalSpaceBeforeSection}{\hspace{0.1cm}}
-\newcommand{\cvSubtitle}[1]{\textcolor{mainColor}{\normalsize{#1}}}
+
+% --- Text styling commands ---
+\newcommand{\cvSubtitle}[1]{\textcolor{mainColor}{\normalsize #1}}
 \newcommand{\companyName}[1]{\textbf{\textcolor{secondaryColor}{#1}}}
 \newcommand{\institutionName}[1]{\textbf{\textcolor{secondaryColor}{#1}}}
 \newcommand{\jobTitle}[1]{\textbf{#1}}
-\newcommand{\fromBis}[2]{\scriptsize{#1 - #2}}
-\newcommand{\cvLocation}[2]{\scriptsize{\ #1, #2}}
+\newcommand{\fromBis}[2]{\scriptsize #1 -- #2}
+\newcommand{\cvLocation}[2]{\scriptsize\ #1, #2}
+\newcommand{\cvSection}[1]{\preSectionSpace{\large\textcolor{black}{#1}}\afterSectionSpace}
+\newcommand{\composedCvSection}[1]{\preSectionSpace{\large\textcolor{black}{#1}}}
+\newcommand{\cvDate}[1]{\scriptsize #1}
+\newcommand{\cvSkill}[1]{\footnotesize #1}
+\newcommand{\spaceBetweenCvEntry}{\\[6pt]}
+\newcommand{\sbt}{$\cdot$ }
 
+% --- Social/contact info spacing ---
 \newcommand{\iconMinipageSpace}{0.035}
 \newcommand{\socialInfoMinipageSpace}{0.27}
 
-\newcommand{\cvSection}[1]{\preSectionSpace{\large\textcolor{black}{#1}}\afterSectionSpace}
-\newcommand{\composedCvSection}[1]{\preSectionSpace{\large\textcolor{black}{#1}}}
-\newcommand{\cvDate}[1]{\scriptsize{#1}}
-\newcommand{\cvSkill}[1]{\footnotesize{#1}}
-\newcommand{\spaceBetweenCvEntry}{\\[6pt]}
-
-\newcommand{\sbt}{$\cdot$ }
+% --- Common locations and company names ---
 \newcommand{\berlin}{\cvLocation{Berlin}{Germany}}
 \newcommand{\gmbh}{GmbH}
 \newcommand{\qurix}{Qurix Technology \gmbh}
-\newcommand{\lsy}{Lufthansa Systems \gmbh \ \& Co. KG}
+\newcommand{\lsy}{Lufthansa Systems \gmbh\ \& Co. KG}
 \newcommand{\pexon}{Pexon Consulting \gmbh}
 \newcommand{\vw}{Volkswagen A.G}
 
-% font
-\renewcommand{\familydefault}{\sfdefault} 
-
-\sloppy
-
-% define column type for tabular subsections
-\newcolumntype{L}{>{\raggedleft}p{0.115\textwidth}}
-\newcolumntype{R}{p{0.83\textwidth}}
-\newcommand\VRule{\color{lightGray}\vrule width 0.25pt}
-
-% define function for scale of knowledge
+% --- Knowledge scale as stars ---
 \newcommand{\grade}[1]{%
-	\begin{tikzpicture}
-    	\clip (1em-.4em,-.35em) rectangle (5em +.5em ,1em);
-    	\foreach \x in {1,2,...,5}{
-    		\path[{fill=lightGray}] (\x em,0) circle (.35em);
-    	}
-    	\begin{scope}
-        	\clip (1em-.4em,-.35em) rectangle (#1em +.5em ,1em);
-        	\foreach \x in {1,2,...,5}{
-        		\path[{fill=mainColor}] (\x em,0) circle (.35em);
-        	}
-    	\end{scope}
-	\end{tikzpicture}%
+  \begin{tikzpicture}
+    \clip (1em-.4em,-.35em) rectangle (#1em +.5em ,1em);
+    \foreach \x in {1,...,5}{
+      \path[fill=lightGray] (\x em,0) circle (.35em);
+    }
+    \foreach \x in {1,...,#1}{
+      \path[fill=mainColor] (\x em,0) circle (.35em);
+    }
+  \end{tikzpicture}%
 }
 
-\newcommand{\cvHeader}{
-    \begin{minipage}{1.0\textwidth}
-            \begin{minipage}{0.45\textwidth}
-		      \begin{flushleft}
-		      	\Large{Fernando Zepeda}\\
-                    \cvSubtitle{Machine Learning and Data Engineer}
-		      \end{flushleft}
-            \end{minipage}
-            \begin{minipage}{0.68\textwidth}
-            %\textcolor{newGray}{\textit{Born in Copiapó, Chile}, May 27, 1988}
-    		\begin{flushleft}
-    				\begin{center}
-    					\begin{minipage}{\iconMinipageSpace\textwidth}
-    						\small{\faMapMarker} \\
-    						\small{\Letter} \\
-                                \small{\faGlobe}
-    					\end{minipage}	
-    					\begin{minipage}{\socialInfoMinipageSpace\textwidth}
-    						\small{Berlin, Germany} \\
-    						\small{\href{mailto:jobs@fernandozepeda.io}{jobs@fernandozepeda.io}} \\
-                                 \small{\href{https://www.fernandozepeda.io}{fernandozepeda.io}}
-    					\end{minipage}
-    					\begin{minipage}{\iconMinipageSpace\textwidth}
-    					    \small{\faLinkedin}\\
-                                \small{\faGithub} \\
-                                \small{\faPhone} 
-    					\end{minipage}
-    					\begin{minipage}{\socialInfoMinipageSpace\textwidth}
-    					    \small{\href{https://www.linkedin.com/in/fernando-zepeda-4b83073a}{Linkedin}}\\
-    						\small{\href{https://github.com/Fmrhj}{Fmrhj}} \\
-                                \censor{\small{+49 1743052810}}
-    					\end{minipage}
-    				\end{center}
-    	   \end{flushleft}
-            \end{minipage}    
-        \end{minipage}
-
-        % Circular Picture
-    %       \begin{minipage}{0.20\textwidth}
-    %	      \begin{tikzpicture}[baseline=(ola.center),inner sep=0pt]
-    %			%\clip (0,0)  circle (2cm) node (ola) {\includegraphics[width=4cm]{images/Photo-bw.jpg}};
-    %			\clip (0, 0)  circle (2.0cm) node (ola)
-    %			{\includegraphics[width=4cm]{images/IMG_200222_165652_gimp_crop_2.jpg}};
-    %		\end{tikzpicture}
-    %   \end{minipage}
-
+% --- CV Header ---
+\newcommand{\cvHeader}{%
+    \begin{minipage}{\textwidth}
+        \begin{minipage}{0.35\textwidth}
+            \begin{flushleft}
+                \Large Fernando Zepeda\\
+            \end{flushleft}
+        \end{minipage}%
+        \begin{minipage}{0.78\textwidth}
+            \begin{flushleft}
+                \begin{center}
+                    \begin{minipage}{\iconMinipageSpace\textwidth}
+                        \small\faMapMarker \\
+                        \small\Letter \\
+                        \small\faGlobe
+                    \end{minipage}%
+                    \begin{minipage}{\socialInfoMinipageSpace\textwidth}
+                        \small Berlin, Germany \\
+                        \small \href{mailto:jobs@fernandozepeda.io}{jobs@fernandozepeda.io} \\
+                        \small \href{https://www.fernandozepeda.io}{fernandozepeda.io}
+                    \end{minipage}%
+                    \begin{minipage}{\iconMinipageSpace\textwidth}
+                        \small\faLinkedin \\
+                        \small\faGithub \\
+                        \small\faPhone
+                    \end{minipage}%
+                    \begin{minipage}{\socialInfoMinipageSpace\textwidth}
+                        \small \href{https://www.linkedin.com/in/fernando-zepeda-4b83073a}{Linkedin} \\
+                        \small \href{https://github.com/Fmrhj}{Fmrhj} \\
+                        \censor{\small +49 1743052810}
+                    \end{minipage}%
+                \end{center}
+            \end{flushleft}
+        \end{minipage}    
+    \end{minipage}
 }
+
 
 % document
 \begin{document}
 	% removes page numbering
 	\pagestyle{empty}
 	% header
-        \cvHeader
-
-        \preSectionSpace
-	% Experience %
+    \cvHeader
+    % description
+    \textcolor{accentColor}{
+    \cvSubtitle{
+    \begin{itemize}[label={}, leftmargin=*, itemsep=0pt, parsep=0pt, topsep=0pt]
+      \item Software engineer specialized in architecting scalable data solutions, with expertise in data transformation and full lifecycle management—from ingestion to delivering curated data products.
+    \end{itemize}
+    }}
+    \preSectionSpace
+    % Experience %
 	\cvSection{Experience}
-	
+    
 	\begin{tabular}{L!{\VRule}R}
-            \fromBis{03/24}{present} & \jobTitle{Backend and Data Engineer} - \companyName{\vw}\\
-		\berlin & \sbt Backend Engineer in analytics projects for data analytics and AI projects for commercial vehicles.\\
-                    & \sbt Implementing data services for busines.\spaceBetweenCvEntry
+        
+    \fromBis{03/24}{present} & \jobTitle{Backend and Data Engineer} – \companyName{\vw}\\
+    \berlin & \sbt Backend Engineer on a CRM platform for commercial vehicles, automating client-contact workflows and visualizing customer preferences from usage data.\\
+            & \sbt Developed scalable data services enabling real-time analytics and AI-driven insights to enhance engagement and campaign targeting.\spaceBetweenCvEntry
 	
-		  \fromBis{04/22}{02/24} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
-		\berlin & \sbt Engineering lead and data engineer with a strong focus on the energy sector.\\
-                    & \sbt Proficient in designing and maintaining cloud infrastructure and data pipelines for data applications.\\
-                    & \sbt Skilled in cloud technologies and system architectures.\\
-                    & \sbt Lead the solution design and development of machine learning services in different use cases.\spaceBetweenCvEntry
+    \fromBis{04/22}{02/24} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
+    \berlin & \sbt Engineering lead and data engineer specializing in the energy sector. \\
+            & \sbt Expertise in designing and maintaining scalable cloud infrastructures and data pipelines for advanced analytics applications. \\
+            & \sbt Proficient in cloud technologies and distributed data system architectures. \\
+            & \sbt Led the design and implementation of machine learning solutions across diverse use cases.\spaceBetweenCvEntry
 	
-            \fromBis{07/20}{02/22} & \jobTitle{Data Engineer and Senior Analytics Consultant} - \companyName{\pexon}\\
-		\berlin & \sbt Specialized in data and ML ops, with focus on backend development for a leading company in the energy sector.\\
-                    & \sbt Expertise in data analytics, pricing and energy portfolio management.\\
-                    & \sbt Developed and maintained data pipelines for a critical energy portfolio application.\\
-                    & \sbt Actively contributed on backend development and software release for different customers.\\
-                    & \sbt Designed and implemented the enhancement of ETL pipelines for a prominent German television broadcaster.\spaceBetweenCvEntry
+    \fromBis{07/20}{03/24} & \jobTitle{Consultant Cloud and Data Analytics} - \companyName{\pexon}\\
+    \berlin & \sbt Lead engineer and data specialist focusing on energy sector solutions.\\
+           & \sbt Designed and maintained scalable cloud infrastructure and data pipelines for advanced applications.\\
+           & \sbt Expert in cloud technologies and system architecture best practices.\\
+           & \sbt Led end-to-end development of machine learning services across diverse use cases.\spaceBetweenCvEntry
                     
-		\fromBis{09/16}{06/20} &\jobTitle{Data Scientist and Data Engineer} - \companyName{\lsy}\\
-		\berlin & \sbt Specialized in airline revenue management and pricing with a strong emphasis on operations research, data engineering, predictive analytics and machine learning.\\
-                  & \sbt Enhanced airline capacity allocation and demand forecasting at major hubs by developing and implementing advanced algorithms within a critical application.\\
-                  & \sbt Deployed an end-to-end application to predict stranded passengers in order to optimize daily hotel demands at main hubs.\\
-                  & \sbt Conceptualized and prototyped dynamic bundling and pricing strategies for flight ancillaries\\
-                  & \rule{\columnwidth}{0.5pt} \\
-                  & \sbt Masterand and Student Assistant: Expertise in ML-driven passenger demand estimation and bid price optimization. Master's thesis on "Airline Stochastic Dynamic Pricing Model": Reinforcement Learning for optimal pricing strategies in single-leg flights.
+    \fromBis{09/16}{06/20} & \jobTitle{Data Scientist and Engineer} – \companyName{\lsy}\\
+    \berlin & \sbt Worked on Flight \& Ground Operations, Revenue Management, and Pricing projects.\\
+            & \sbt Developed a holistic flight operations solution on Google Cloud, integrating key operational modules for new platform supporting the Operations Control Center.\\
+            & \sbt Developed predictive analytics models forecasting stranded passengers and hotel demand in Frankfurt and Munich hubs.\\
+            & \sbt Concept and research for dynamic bundling and ancillary pricing strategies using machine learning classifiers.\\
+            & \sbt Master's thesis and student assistant work: developed a Reinforcement Learning-based pricing model for single-leg flights.\\
                         		
 		\begin{comment}		
                 \fromBis{04/2014}{09/2015} & \jobTitle{Student Assistant} - \companyName{Wintershall Erdgas Handelhaus GmbH \& Co. KG - BASF}\\
@@ -260,61 +255,36 @@
 
 	\end{tabular}
  \end{comment}
-	
-	%----- Certifications and Skills %
-            \parbox{1.0\linewidth}{
-                \composedCvSection{Skills}
-                
-                \parbox{0.49\linewidth}{
-		          \begin{flushleft}
-                        \begin{enumerate}
-                            \item Programming languages: Python, Javascript, R, Bash
-                            \item Machine Learning Libraries: Tensorflow, PyTorch, Scikit-Learn
-                            \item Infrastructure as Code: Terraform, Bicep, ARM Templates
-                            \item Cloud Platforms: Azure, AWS, GCP
-                            \item Cloud Deployments (Container as a Service): Docker, Kubernetes, Azure Container Registry, docker-compose
-                            \item Cloud Deployments (Function as a Service): Azure Functions (Durable), AWS Lambda, Open FaaS
-                        \end{enumerate}
-	       	   \end{flushleft}
-                }
-                \parbox{0.49\linewidth}{
-                     \begin{flushleft}
-                        \begin{enumerate}
-                            \item Databases: SQL (SQL Server, PosgreSQL), noSQL (Azure Cosmos)
-        				\item Data Warehousing: Snowflake, BigQuery, Azure Synapse
-        				\item Data Architecture: Microservices, Lambda, Mesh
-                            \item DevOps: Azure DevOps, Github Actions, GitLab CI, Jenkins
-                            \item Orchestration: Airflow, Azure Data Factory, AWS Glue
-                            \item Big Data: PySpark (Databricks), Kafka (Confluent)
-                            \item Other Skills: effective communication, cultural awareness, teamwork
-                        \end{enumerate}
-	       	   \end{flushleft}
-                }}
-            
-            \parbox{1.0\linewidth}{
-                \composedCvSection{Certifications}
-                
-                \parbox{0.45\linewidth}{
-                    \begin{flushleft}
-                        \begin{enumerate}[label={}]
-                            \item 03/22 Microsoft Certified: Azure Data Engineer
-                            \item 11/21 Hashicorp Certified: Terraform Associate
-                            \item 04/21 Microsoft Certified: Azure Data Scientist Associate
-                        \end{enumerate}	
-                    \end{flushleft}
-	       }}
+    	
+     %---- Languages %
+    \cvSection{Core Skills}
+
+    {\small
+    \begin{itemize}[parsep=0pt, topsep=0pt, itemsep=2pt, leftmargin=1.5em]
+      \item \textbf{Data Engineering \& Architecture}: Data Pipelines and solutions using Azure, AWS, GCP, and orchestration tools like Airflow and Data Factory and Databricks.
+      \item \textbf{Programming}: Proficient in Python, SQL, Scala, and Bash.
+      \item \textbf{ETL \& Analytics}: Developing ETL workflows with Databricks, Apache Spark, and Azure Data Factory.
+      \item \textbf{Data Modeling \& Warehousing}: Designing models and managing data in Snowflake, BigQuery, and Azure Synapse.
+      \item \textbf{Cloud Infrastructure}: Skilled in cloud storage, containerization (Docker, Kubernetes), and serverless computing.
+      \item \textbf{Collaboration}: Effective in cross-functional teams with strong intercultural awareness and clear communication.
+    \end{itemize}
+    }
     
+
     %---- Languages %
 	\cvSection{Languages}
- 
-	\begin{minipage}{1.0\textwidth}
-		\begin{flushleft}
-			\cvSkill{German} (Fluent), \cvSkill{English} (Fluent), \cvSkill{Spanish} (Mother tongue), \cvSkill{French} (Intermediate)
-		\end{flushleft}
-	\end{minipage}
+    
+    \begin{minipage}{1.0\textwidth}
+      \begin{flushleft}
+        \cvSkill{German (Fluent)} \quad $\cdot$ \quad
+        \cvSkill{English (Fluent)} \quad $\cdot$ \quad
+        \cvSkill{Spanish (Mother tongue)} \quad $\cdot$ \quad
+        \cvSkill{French (Intermediate)}
+      \end{flushleft}
+    \end{minipage}
 
-        \flushright{\footnotesize{Berlin, \today}}
-	
+    \vspace{0pt}
+    \noindent\hfill{\footnotesize Berlin, \today}
 	% Awards %
 	%\preSectionSpace
 	%\vspace{0.3cm}
