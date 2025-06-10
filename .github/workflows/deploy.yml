@@ -1,90 +1,40 @@
-name: Build and release LaTeX CV
-on: [push]
+name: Build LaTeX CV on Release
+
+on:
+  release:
+    types: [published]  # Only run when a new release is published
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref != 'refs/heads/master' && github.ref || github.run_id }}-${{ github.event_name }}
+  group: ${{ github.workflow }}-${{ github.event.release.tag_name }}
   cancel-in-progress: true
 
 env:
   file_name: Zepeda_resume.pdf
   latex_file: main.tex
-  github_repository: https://github.com/Fmrhj
 
 jobs:
-  get-bump-type:
+  compile-latex-and-release:
     runs-on: ubuntu-latest
-    outputs:
-      bump_type: ${{ steps.bumpt.outputs.bump_type }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-tags: true
-      - name: Fetch and prone tags
-        run: git fetch --prune --unshallow --tags
-      - name: Get bump type
-        id: bumpt
-        run: |
-          commit_message='${{ github.event.head_commit.message }}'
-          if [[ $commit_message == *"BREAKING CHANGE"* ]]; then
-            echo "bump_type=major" >> $GITHUB_OUTPUT
-          elif [[ $commit_message == *"feat"* ]]; then
-            echo "bump_type=minor" >> $GITHUB_OUTPUT
-          elif [[ $commit_message == *"fix"* ]]; then
-            echo "bump_type=patch" >> $GITHUB_OUTPUT
-          else
-            echo "bump_type=chore" >> $GITHUB_OUTPUT
-          fi
-      - name: Log bump type
-        run: |
-          echo "### Bump type: ${{ steps.bumpt.outputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
+          fetch-depth: 0  # Required to get full history and tags
 
-  compile-latex-and-release:
-    needs: get-bump-type
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code and tags
-        uses: actions/checkout@v3
-        with:
-          fetch-tags: true
-      - name: Fetch and prone tags
-        run: git fetch --prune --unshallow --tags
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
           root_file: ${{ env.latex_file }}
           latexmk_use_xelatex: true
+
       - name: Check output
         run: ls -la
+
       - name: Change PDF name
         run: mv main.pdf ${{ env.file_name }}
-      - name: Get new version
-        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
-        id: gnver
-        run: |
-          old_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 3 | head -1) 
-          new_version=$(bash ${GITHUB_WORKSPACE}/release/create_new_release.sh '${{ needs.get-bump-type.outputs.bump_type }}' | tail -n 1)
-          echo $new_version
-          echo "new_version=$new_version" >> $GITHUB_OUTPUT
-          echo "old_version=$old_version" >> $GITHUB_OUTPUT
-          echo "🚀 New version: $new_version" >> $GITHUB_STEP_SUMMARY
-      - name: Create new tag
-        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
-        run: |
-          git tag ${{ steps.gnver.outputs.new_version }}
-          git push --tags
-          git push origin ${{ steps.gnver.outputs.new_version }}
-      - name: Generate Changelog
-        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
-        run: |
-          echo "## What has changed" > "${{ github.workspace }}-CHANGELOG.txt"
-          echo "${{ github.event.head_commit.message}}" >> "${{ github.workspace }}-CHANGELOG.txt"
-          echo "**Full Changelog**: ${{ env.github_repository }}/cv/compare/${{ steps.gnver.outputs.old_version }}...${{ steps.gnver.outputs.new_version }}" >> "${{ github.workspace }}-CHANGELOG.txt"
-      - name: Release CV
-        if: endsWith(github.ref, 'main') && !contains(needs.get-bump-type.outputs.bump_type, 'chore')
+
+      - name: Upload to Release
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ steps.gnver.outputs.new_version }}
-          tag_name: ${{ steps.gnver.outputs.new_version }}
-          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          tag_name: ${{ github.event.release.tag_name }}
           files: ${{ env.file_name }}
