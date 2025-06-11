@@ -21,7 +21,7 @@
 \setlist[enumerate]{%
     label={\tiny\raisebox{1ex}{\textbullet}}, 
     labelsep=4pt,
-    itemsep=0.25pt,
+    itemsep=0.20pt,
     before=\normalfont\small,
     topsep=0pt,
     leftmargin=*,
@@ -34,7 +34,7 @@
 \usepackage[none]{hyphenat}
 \usepackage{censor}
 \usepackage{ae, aecompl} % Font encoding fixes
-
+\usepackage{multicol}
 % --- Colors ---
 \definecolor{mainColor}{RGB}{15, 35, 60} % dark navy with a hint of slate
 \definecolor{accentColor}{RGB}{0, 130, 160}  % a teal-ish blue
@@ -152,7 +152,7 @@
     \textcolor{accentColor}{
     \cvSubtitle{
     \begin{itemize}[label={}, leftmargin=*, itemsep=0pt, parsep=0pt, topsep=0pt]
-      \item Software engineer specialized in architecting scalable data solutions, with expertise in data transformation and full lifecycle management—from ingestion to delivering curated data products.
+      \item Experienced software engineer with 8+ years architecting and building scalable data solutions, with expertise in data transformation and full life-cycle management from data ingestion to delivering curated data products.
     \end{itemize}
     }}
     \preSectionSpace
@@ -162,26 +162,25 @@
 	\begin{tabular}{L!{\VRule}R}
         
     \fromBis{03/24}{present} & \jobTitle{Backend and Data Engineer} – \companyName{\vw}\\
-    \berlin & \sbt Backend Engineer on a CRM platform for commercial vehicles, automating client-contact workflows and visualizing customer preferences from usage data.\\
-            & \sbt Developed scalable data services enabling real-time analytics and AI-driven insights to enhance engagement and campaign targeting.\spaceBetweenCvEntry
+    \berlin & \sbt Backend Engineer on a CRM platform for commercial vehicles, automating client-contact workflows and preparing data for visualizing customer preferences.\\
+            & \sbt Developed scalable data services in AWS enabling real-time analytics and AI-driven insights to enhance engagement and campaign targeting.\spaceBetweenCvEntry
 	
     \fromBis{04/22}{02/24} & \jobTitle{Machine Learning and Data Engineer} - \companyName{\qurix}\\
-    \berlin & \sbt Engineering lead and data engineer specializing in the energy sector. \\
-            & \sbt Expertise in designing and maintaining scalable cloud infrastructures and data pipelines for advanced analytics applications. \\
-            & \sbt Proficient in cloud technologies and distributed data system architectures. \\
-            & \sbt Led the design and implementation of machine learning solutions across diverse use cases.\spaceBetweenCvEntry
+    \berlin & \sbt Engineering lead specializing in the energy sector (renewable energy generation). \\
+            & \sbt Expertise in designing and maintaining scalable cloud infrastructure and data pipelines for advanced analytics applications.\\
+            & \sbt Designed and implemented a new data processing architecture, migrating from monolithic database systems to a distributed, event-driven pipeline leveraging Apache Kafka.\\
+            & \sbt Designed and implemented practical machine learning solutions in SMEs.\spaceBetweenCvEntry
 	
     \fromBis{07/20}{03/24} & \jobTitle{Consultant Cloud and Data Analytics} - \companyName{\pexon}\\
-    \berlin & \sbt Lead engineer and data specialist focusing on energy sector solutions.\\
-           & \sbt Designed and maintained scalable cloud infrastructure and data pipelines for advanced applications.\\
-           & \sbt Expert in cloud technologies and system architecture best practices.\\
-           & \sbt Led end-to-end development of machine learning services across diverse use cases.\spaceBetweenCvEntry
+    \berlin & \sbt Designed and maintained scalable, cloud infrastructure for a high-throughput data warehouse storaging and transforming data to support energy pricing adjustment calculations for energy clients.\\
+           & \sbt Leveraged deep expertise in Azure cloud services to efficiently process and transform massive, latency-sensitive data volumes.\\
+           & \sbt Mentored junior engineers and new colleagues in software engineering principles, scalable data architecture, DevOps, and system design best practices. \spaceBetweenCvEntry
                     
     \fromBis{09/16}{06/20} & \jobTitle{Data Scientist and Engineer} – \companyName{\lsy}\\
     \berlin & \sbt Worked on Flight \& Ground Operations, Revenue Management, and Pricing projects.\\
             & \sbt Developed a holistic flight operations solution on Google Cloud, integrating key operational modules for new platform supporting the Operations Control Center.\\
             & \sbt Developed predictive analytics models forecasting stranded passengers and hotel demand in Frankfurt and Munich hubs.\\
-            & \sbt Concept and research for dynamic bundling and ancillary pricing strategies using machine learning classifiers.\\
+            & \sbt Concept and research for dynamic bundling and ancillary pricing strategies using machine learning classifiers. Expertise in Revenue Management \& Pricing.\\
             & \sbt Master's thesis and student assistant work: developed a Reinforcement Learning-based pricing model for single-leg flights.\\
                         		
 		\begin{comment}		
@@ -210,7 +209,7 @@
 	
 	%---- Education ------------------------------------------------------------------------------------------------------------------------%
 	\cvSection{Education}
-	
+    
 	\begin{tabular}{L!{\VRule}R}
 		
 		\fromBis{04/14}{06/17} & \textbf{Industrial Engineering (M.Sc.)} - \institutionName{Technical University of Berlin}\\
@@ -220,16 +219,13 @@
 		\cvLocation{Valencia}{Spain}& Quantitative Production \& Operations Management \spaceBetweenCvEntry 
 		
 		\fromBis{03/06}{10/12} & \textbf{Industrial Engineering (Ing. Civil)} - \institutionName{Universidad T\'ecnica Federico Santa Mar\'ia}\\
-		\cvLocation{Valpara\'iso}{Chile} & Diplom Thesis: ``Predicting bankruptcy of Chilean enterprises with artificial neural networks''
-  
+		\cvLocation{Valpara\'iso}{Chile} & Diplom Thesis: ``Predicting bankruptcy of Chilean enterprises with artificial neural networks'' \spaceBetweenCvEntry
 		\begin{comment}
 			03/2002 - 12/2005&\textbf{Secondary School} - Colegio San Luis\\
 			\footnotesize{Antofagasta, Chile}&\\[-12pt]
 			& Scientific-humanist school degree with focus on courses of Mathematics and Chemistry\\ 
 		\end{comment}
-
 	\end{tabular}
-    
     \begin{comment}
     
 	% Talks %
@@ -243,9 +239,8 @@
 		\berlin & Speaker at the Airline Revenue Management on the Pricing \& Revenue Management stream.           \href{https://www.dropbox.com/s/h7vtkc215zh3r43/OR_17.pdf?dl=0}{Presentation}.
 		
 	\end{tabular}
-	
-	
-	%---- Publications ------------------------------------------------------------------------------------------------------------------%
+
+	%---- Publications %
 	\cvSection{Publications}
 	
 	\begin{tabular}{L!{\VRule}R}
@@ -254,26 +249,27 @@
 		\berlin & Modelling the airline revenue management pricing problem within a Markov Decision Process. \href{https://www.euro-online.org/conf/admin/tmp/program-gor17.pdf}{Abstract}. 
 
 	\end{tabular}
- \end{comment}
-    	
+    \end{comment}
+    
      %---- Languages %
-    \cvSection{Core Skills}
-
+    \cvSection{Technical Skills}
     {\small
-    \begin{itemize}[parsep=0pt, topsep=0pt, itemsep=2pt, leftmargin=1.5em]
-      \item \textbf{Data Engineering \& Architecture}: Data Pipelines and solutions using Azure, AWS, GCP, and orchestration tools like Airflow and Data Factory and Databricks.
-      \item \textbf{Programming}: Proficient in Python, SQL, Scala, and Bash.
-      \item \textbf{ETL \& Analytics}: Developing ETL workflows with Databricks, Apache Spark, and Azure Data Factory.
-      \item \textbf{Data Modeling \& Warehousing}: Designing models and managing data in Snowflake, BigQuery, and Azure Synapse.
-      \item \textbf{Cloud Infrastructure}: Skilled in cloud storage, containerization (Docker, Kubernetes), and serverless computing.
-      \item \textbf{Collaboration}: Effective in cross-functional teams with strong intercultural awareness and clear communication.
+    \begin{center}  % center the entire block
+    \begin{multicols}{2}
+    \begin{itemize}[parsep=0pt, topsep=0pt, itemsep=1.2pt, leftmargin=1.2em]
+      \item \textbf{Programming}: Python, SQL, R, Scala, Bash, Rust.
+      \item \textbf{ETL}: Airflow, Databricks, Apache Spark, Azure Data Factory, AWS Step Functions.
+      \item \textbf{Data Modeling \& Warehousing}: Different mo Snowflake, Redshift, BigQuery, Azure Synapse.
+      \item \textbf{Cloud Infrastructure}: Azure, AWS, GCP; containerization (Docker, Kubernetes) and serverless.
+      %\item \textbf{Collaboration}: Cross-functional teams, intercultural awareness, clear communication.
     \end{itemize}
+    \end{multicols}
+    \end{center}
     }
-    
-
     %---- Languages %
-	\cvSection{Languages}
+    \cvSection{Languages}
     
+    {\small
     \begin{minipage}{1.0\textwidth}
       \begin{flushleft}
         \cvSkill{German (Fluent)} \quad $\cdot$ \quad
@@ -282,8 +278,7 @@
         \cvSkill{French (Intermediate)}
       \end{flushleft}
     \end{minipage}
-
-    \vspace{0pt}
+    \vspace{-4pt}
     \noindent\hfill{\footnotesize Berlin, \today}
 	% Awards %
 	%\preSectionSpace
